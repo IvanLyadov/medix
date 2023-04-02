@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import { Cases } from './components/cases/cases';
+import { Footer } from './components/footer/footer';
+import { Header } from './components/header/header';
+import { Menu } from './components/menu/menu';
+import { PatientCards } from './components/patient-cards/patient-cards';
 
-function App() {
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="grid-container">
+      <div className="header">
+        <Header />
+      </div>
+
+      <div className="menu"><Menu /></div>
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Cases />} />
+          <Route path="/patientCards" element={<PatientCards />} />
+        </Routes>
+
+      </div>
+
+      <div className="footer"><Footer /></div>
     </div>
   );
 }
-
-export default App;
