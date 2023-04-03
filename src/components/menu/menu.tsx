@@ -3,7 +3,7 @@ import "./menu.css";
 
 export const Menu = () => {
     return (
-        <div className="menu-container bg-blue-2">
+        <div className="menu-container bg-blue-2 h-full">
             <div className="cursor-pointer">
             <Link to="/">Cases</Link>
             </div>

@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { Cases } from './components/cases/cases';
+import { CasesList } from './components/cases/cases-list';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { Menu } from './components/menu/menu';
@@ -13,9 +13,9 @@ export const App = () => {
       </div>
 
       <div className="menu"><Menu /></div>
-      <div className="content">
+      <div className="content bg-blue-3">
         <Routes>
-          <Route path="/" element={<Cases />} />
+          <Route path="/" element={<CasesList />} />
           <Route path="/patientCards" element={<PatientCards />} />
         </Routes>
 
