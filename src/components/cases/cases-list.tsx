@@ -140,26 +140,26 @@ export const CasesList = () => {
                     <input className="mr-6 mt-2 h-6 w-52 rounded-md border-2" placeholder="Search" type="text" />
                 </div>
             </div>
-            <div className="flex-1 overflow-auto min-h-0">
-                <div className="table-header bg-blue-5">
-                    <div className="mt-2 pl-2 font-bold truncate">
-                        Created Date
-                    </div>
-                    <div className="mt-2 pl-2 font-bold truncate">
-                        Status
-                    </div>
-                    <div className="mt-2 pl-2 font-bold truncate">
-                        Patient Name
-                    </div>
-                    <div className="mt-2 pl-2 font-bold truncate">
-                        Primary Complaint
-                    </div>
-                    <div className="mt-2 pl-2 font-bold truncate">
-                        Diagnosis
-                    </div>
-                    <div></div>
+
+            <div className="table-header bg-blue-5">
+                <div className="mt-2 pl-2 font-bold truncate">
+                    Created Date
                 </div>
-                <div>
+                <div className="mt-2 pl-2 font-bold truncate">
+                    Status
+                </div>
+                <div className="mt-2 pl-2 font-bold truncate">
+                    Patient Name
+                </div>
+                <div className="mt-2 pl-2 font-bold truncate">
+                    Primary Complaint
+                </div>
+                <div className="mt-2 pl-2 font-bold truncate">
+                    Diagnosis
+                </div>
+                <div></div>
+            </div>
+            <div className="flex-1 overflow-auto min-h-0">
                     {cases.map((c) => {
                         return (
                             <div key={c.id} className="table-row even:bg-blue-6">
@@ -173,7 +173,6 @@ export const CasesList = () => {
                         )
                     })}
                 </div>
-            </div>
             <div className="text-center h-10 pt-2 font-bold">
                 1...1
             </div>
