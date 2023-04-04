@@ -32,7 +32,7 @@ export const Header = () => {
 
     return (
         <header>
-            <div className="bg-blue-1 h-16">
+            <div className="bg-blue-1 h-16 border-b-2">
                 <nav className="flex justify-between">
 
                     <a className="text-3xl mt-2 ml-5">
@@ -44,7 +44,7 @@ export const Header = () => {
                             Martin Sallenger
                         </div>
                     </div >
-                    {isMenuOpened && <div className="absolute flex flex-col right-0 top-16 w-40 items-center border-2">
+                    {isMenuOpened && <div className="absolute flex flex-col right-0 top-16 w-40 items-center border-2 bg-white">
                         <div className="h-8 w-full text-center cursor-pointer hover:bg-slate-400">Profile</div>
                         <div className="h-8 w-full text-center cursor-pointer hover:bg-slate-400">LogOut</div>
                     </div>}
