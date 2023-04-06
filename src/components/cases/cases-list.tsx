@@ -10,6 +10,7 @@ import { Case } from "../../models/case/case";
 import "./cases-list.css";
 import { SortOrder } from "../../models/sort-order";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const CasesList = () => {
     const cases: Case[] = [
@@ -221,7 +222,7 @@ export const CasesList = () => {
                             <div className="pt-1 pl-2 truncate">{c.patientCard.firstName} {c.patientCard.lastName}</div>
                             <div className="pt-1 pl-2 truncate">{c.primaryComplaint}</div>
                             <div className="pt-1 pl-2 truncate">{c.diagnosis}</div>
-                            <div className="pt-1 pl-2 truncate text-blue-400 cursor-pointer">Details</div>
+                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={"/case"}>Details</Link>
                         </div>
                     )
                 })}
