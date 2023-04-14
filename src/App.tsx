@@ -5,6 +5,9 @@ import { Header } from './components/header/header';
 import { Menu } from './components/menu/menu';
 import { PatientCards } from './components/patient-cards/patient-cards';
 import { CaseDetail } from './components/case/case-detail';
+import { Calendar } from './components/calendar/calendar';
+import "react-big-calendar/lib/css/react-big-calendar.css"
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 
 export const App = () => {
   return (
@@ -18,6 +21,7 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<CasesList />} />
           <Route path="/case" element={<CaseDetail />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/patientCards" element={<PatientCards />} />
         </Routes>
 
