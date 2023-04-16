@@ -58,7 +58,7 @@ export const Calendar = () => {
     };
 
     return (
-        <div>
+        <div className="h-full overflow-auto">
             <DnDCalendar
                 localizer={localizer}
                 events={events}
@@ -75,7 +75,7 @@ export const Calendar = () => {
                 resizable
                 onEventResize={handleEventResize}
             />
-            <Modal className="" isOpen={isModalOpen} onRequestClose={handleCloseModal} >
+            <Modal className="h-96 w-52 ml-auto mr-auto bg-white" isOpen={isModalOpen} onRequestClose={handleCloseModal} >
                 <div className="">
                     <h2>{selectedEvent?.title}</h2>
                     <p>Start Time: {selectedEvent?.start.toString()}</p>
