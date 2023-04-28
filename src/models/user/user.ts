@@ -9,6 +9,7 @@ export interface User {
     phoneNumber: string;
     role?: UserRole;
     jobTitle: string;
+    isActive: boolean;
     createdAtUtc: string;
     updatedAtUtc?: string;
 }

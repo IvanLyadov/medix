@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { ReactComponent as Profile } from "../../assets/icons/profile.svg";
 import { useStore } from "zustand";
-import { userStore } from "../../store/appState";
+import { sessionState } from "../../store/appState";
 
 export const Header = () => {
     const [isMenuOpened, setMenuOpened] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
-    const userState = useStore(userStore);
+    const appState = useStore(sessionState);
 
     const hideMenuHandler = () => {
         setMenuOpened(!isMenuOpened);
@@ -46,7 +46,7 @@ export const Header = () => {
                     <div id="account-menu" ref={menuRef} onClick={hideMenuHandler} className="relative flex flex-col items-center mt-2 mr-3 cursor-pointer hover:text-slate-400">
                         <Profile className="h-6 w-6" />
                         <div className="font-bold">
-                            {userState.user.name}
+                            {appState.loggedInUser?.firstName} {appState.loggedInUser?.lastName}
                         </div>
                     </div >
                     {isMenuOpened && <div className="absolute flex flex-col right-0 top-16 w-40 items-center border-2 bg-white">
