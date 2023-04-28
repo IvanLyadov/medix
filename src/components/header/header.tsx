@@ -1,16 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { ReactComponent as Profile } from "../../assets/icons/profile.svg";
+import { useStore } from "zustand";
+import { userStore } from "../../store/appState";
 
 export const Header = () => {
     const [isMenuOpened, setMenuOpened] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+
+    const userState = useStore(userStore);
 
     const hideMenuHandler = () => {
         setMenuOpened(!isMenuOpened);
     };
 
     const clickAway = (e: MouseEvent) => {
-        if (!menuRef.current?.contains(e.target as Node)){
+        if (!menuRef.current?.contains(e.target as Node)) {
             setMenuOpened(false);
         }
     };
@@ -18,12 +22,12 @@ export const Header = () => {
     useEffect(() => {
         const body = document.getElementsByTagName("body")[0];
 
-        if (body){
+        if (body) {
             body.addEventListener("click", clickAway);
         }
 
         return () => {
-            if (body){
+            if (body) {
                 body.removeEventListener("click", clickAway);
             }
         }
@@ -35,13 +39,14 @@ export const Header = () => {
             <div className="bg-blue-1 h-16 border-b-2">
                 <nav className="flex justify-between">
 
-                    <a className="text-3xl mt-2 ml-5">
-                        Medix</a>
+                    <a href="/" className="text-3xl mt-2 ml-5">
+                        Medix
+                    </a>
 
                     <div id="account-menu" ref={menuRef} onClick={hideMenuHandler} className="relative flex flex-col items-center mt-2 mr-3 cursor-pointer hover:text-slate-400">
                         <Profile className="h-6 w-6" />
                         <div className="font-bold">
-                            Martin Sallenger
+                            {userState.user.name}
                         </div>
                     </div >
                     {isMenuOpened && <div className="absolute flex flex-col right-0 top-16 w-40 items-center border-2 bg-white">
