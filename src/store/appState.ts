@@ -1,11 +1,20 @@
 import create from 'zustand';
-import { AppState, userData } from '../models/app-staate';
+import { User } from '../models/user/user';
+import { UserRole } from '../models/user/user-role';
+import { SessionState } from './models/session-state';
 
 
-export const userStore = create<AppState>((set) => ({
-    user: {
-        name: 'Martin Sallenger',
-        age: 25,
-    },
-    updateUserData: (newState: userData) => set(() => ({ user: newState }))
+export const sessionState = create<SessionState>((set) => ({
+    loggedInUser: {
+        id: "",
+        firstName: "Martin",
+        lastName: "Sallenger",
+        email: "",
+        phoneNumber: "",
+        role: UserRole.Administrator,
+        jobTitle: "",
+        isActive: true,
+        createdAtUtc: ""
+    }, 
+    updateUser: (user: User) => set(() => ({ loggedInUser: user }))
 }));
