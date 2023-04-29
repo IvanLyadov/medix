@@ -1,3 +1,4 @@
+import { debounce } from 'lodash';
 import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
 import { ReactComponent as Search } from "../../assets/icons/search.svg";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
@@ -9,142 +10,80 @@ import { ReactComponent as Inactive } from "../../assets/icons/inactive.svg";
 import { Case } from "../../models/case/case";
 import "./cases-list.css";
 import { SortOrder } from "../../models/sort-order";
-import { useState } from "react";
+import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useStore } from "zustand";
+import { casesState } from "../../store/casesState";
+import { getCases } from "../../services/cases.service";
+import moment from "moment";
+import { defaultLimit, defaultOffset } from "../../models/model-constants";
 
 export const CasesList = () => {
-    const cases: Case[] = [
-        {
-            id: "123",
-            patientCard: {
-                id: "",
-                firstName: "Hankey",
-                lastName: "Bannister",
-                dateOfBirth: "",
-                phoneNumber: "",
-                email: "",
-                createdAtUtc: ""
-            },
-            diagnosis: "Migraine",
-            primaryComplaint: "Headache",
-            createdAtUtc: "15/03/2023",
-            closedAtUtc: ""
-        },
-        {
-            id: "133",
-            patientCard: {
-                id: "",
-                firstName: "Jack",
-                lastName: "Daniels",
-                dateOfBirth: "",
-                phoneNumber: "",
-                email: "",
-                createdAtUtc: ""
-            },
-            primaryComplaint: "Temperature",
-            createdAtUtc: "11/03/2023",
-            closedAtUtc: ""
-        },
-        {
-            id: "3465",
-            patientCard: {
-                id: "",
-                firstName: "Hankey",
-                lastName: "Bannister",
-                dateOfBirth: "",
-                phoneNumber: "",
-                email: "",
-                createdAtUtc: ""
-            },
-            diagnosis: "Migraine",
-            primaryComplaint: "Headache",
-            createdAtUtc: "15/03/2023",
-            closedAtUtc: ""
-        },
-        {
-            id: "56856",
-            patientCard: {
-                id: "",
-                firstName: "Jack",
-                lastName: "Daniels",
-                dateOfBirth: "",
-                phoneNumber: "",
-                email: "",
-                createdAtUtc: ""
-            },
-            primaryComplaint: "Temperature",
-            createdAtUtc: "11/03/2023",
-            closedAtUtc: ""
-        },
-        {
-            id: "64523",
-            patientCard: {
-                id: "",
-                firstName: "Hankey",
-                lastName: "Bannister",
-                dateOfBirth: "",
-                phoneNumber: "",
-                email: "",
-                createdAtUtc: ""
-            },
-            diagnosis: "Migraine",
-            primaryComplaint: "Headache",
-            createdAtUtc: "15/03/2023",
-            closedAtUtc: ""
-        },
-        {
-            id: "634634",
-            patientCard: {
-                id: "",
-                firstName: "Jack",
-                lastName: "Daniels",
-                dateOfBirth: "",
-                phoneNumber: "",
-                email: "",
-                createdAtUtc: ""
-            },
-            primaryComplaint: "Temperature",
-            createdAtUtc: "11/03/2023",
-            closedAtUtc: "13/03/2023"
-        },
+    const casesStore = useStore(casesState);
 
-    ];
+    const fetchCases = useCallback(async () => {
+        const paginatedCases = await getCases(casesStore.casesFilter);
+        casesStore.updateCases(paginatedCases);
+    }, [casesStore]);
 
-    const [isActiveStatusFilterApplied, setActiveStatusFilter] = useState<boolean>();
-    const [isInactiveStatusFilterApplied, setInactiveStatusFilter] = useState<boolean>();
+    useEffect(() => {
+        const timeout = setTimeout(fetchCases, 500);
+        return () => clearTimeout(timeout);
+    },[casesStore.casesFilter]);
+
+    const formatDateTime = (dateTime: string): string => {
+        const date = moment.utc(dateTime);
+        const localDate = date.local();
+        return localDate.format('YYYY-MM-DD HH:mm');
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        var newFilter = {...casesStore.casesFilter};
+        newFilter.search = value;
+        newFilter.limit = defaultLimit;
+        newFilter.offset = defaultOffset;
+        casesStore.updateCasesFilter(newFilter);
+      }
+
+    const debouncedHandleChange = debounce(handleChange, 800);
 
     const toPreviousPage = () => {
+        const offset = casesStore.casesFilter.offset - defaultLimit;
 
+        var newFilter = {...casesStore.casesFilter};
+        newFilter.offset = offset >= 0 ? offset : 0;
+        casesStore.updateCasesFilter(newFilter);
     };
 
     const toNextPage = () => {
-
+        var newFilter = {...casesStore.casesFilter};
+        newFilter.offset += defaultLimit;
+        
+        casesStore.updateCasesFilter(newFilter);
     };
 
     const sortrDate = (order: SortOrder) => {
-
+        var newFilter = {...casesStore.casesFilter};
+        newFilter.casesSortState.sortOrder = order;
+        casesStore.updateCasesFilter(newFilter);
     };
 
     const filterStatus = (isActive: boolean) => {
-        if (isActive && isActiveStatusFilterApplied){
-            setActiveStatusFilter(false)
-        }
-        if (isActive && !isActiveStatusFilterApplied){
-            setActiveStatusFilter(true)
-            setInactiveStatusFilter(false)
+        var newFilter = {...casesStore.casesFilter};
+
+        let res: boolean | undefined = undefined;
+
+        if (casesStore.casesFilter.isActive != isActive){
+            res = isActive;
         }
 
-        if (!isActive && isInactiveStatusFilterApplied){
-            setInactiveStatusFilter(false)
-        }
-        if (!isActive && !isInactiveStatusFilterApplied){
-            setInactiveStatusFilter(true)
-            setActiveStatusFilter(false)
-        }
+        newFilter.isActive = res;
+        casesStore.updateCasesFilter(newFilter);
     };
 
     const getActiveStatusFilterBtnClass = (): string => {
-        if (isActiveStatusFilterApplied){
+        if (casesStore.casesFilter.isActive){
             return "fill-green-600"
         } else {
             return "";
@@ -152,7 +91,7 @@ export const CasesList = () => {
     }
 
     const getInactiveStatusFilterBtnClass = (): string => {
-        if (isInactiveStatusFilterApplied){
+        if (casesStore.casesFilter.isActive !== undefined && !casesStore.casesFilter.isActive){
             return "fill-red-600"
         } else {
             return "";
@@ -171,7 +110,7 @@ export const CasesList = () => {
                 </div>
                 <div className="flex flex-row">
                     <Search className="mt-2 mr-3 h-5 w-5" />
-                    <input className="mr-6 mt-2 h-6 w-52 rounded-md border-2" placeholder="Search" type="text" />
+                    <input className="mr-6 mt-2 h-6 w-52 rounded-md border-2" placeholder="Search" type="text" onChange={debouncedHandleChange}/>
                 </div>
             </div>
 
@@ -181,10 +120,10 @@ export const CasesList = () => {
                         Created Date
                     </div>
                     <div className="flex flex-col ml-1 mt-1">
-                        <button onClick={() => sortrDate(SortOrder.Asc)}>
+                        <button onClick={() => sortrDate(SortOrder.Asc)} disabled={casesStore.casesFilter.casesSortState.sortOrder === SortOrder.Asc}>
                             <ArrowUp className="h-4 w-4" />
                         </button>
-                        <button onClick={() => sortrDate(SortOrder.Desc)}>
+                        <button onClick={() => sortrDate(SortOrder.Desc)} disabled={casesStore.casesFilter.casesSortState.sortOrder === SortOrder.Desc}>
                             <ArrowDown className="h-4 w-4" />
                         </button>
                     </div>
@@ -214,10 +153,10 @@ export const CasesList = () => {
                 <div></div>
             </div>
             <div className="flex-1 overflow-auto min-h-0">
-                {cases.map((c) => {
+                {casesStore.paginatedCases?.cases.map((c) => {
                     return (
                         <div key={c.id} className="table-row even:bg-blue-6">
-                            <div className="pt-1 pl-2 truncate">{c.createdAtUtc}</div>
+                            <div className="pt-1 pl-2 truncate">{formatDateTime(c.createdAtUtc)}</div>
                             <div className="pt-1 pl-2 truncate">{c.closedAtUtc ? "Closed" : "Active"}</div>
                             <div className="pt-1 pl-2 truncate">{c.patientCard.firstName} {c.patientCard.lastName}</div>
                             <div className="pt-1 pl-2 truncate">{c.primaryComplaint}</div>
@@ -228,13 +167,13 @@ export const CasesList = () => {
                 })}
             </div>
             <div className="flex flex-row justify-center h-10 pt-2 font-bold">
-                <button onClick={toPreviousPage}>
+                <button onClick={toPreviousPage} disabled={!casesStore.paginatedCases?.isPreviousPageAvailable}>
                     <ArrowLeft className="h-7 w-7" />
                 </button>
                 <div className="mt-2">
                     1...1
                 </div>
-                <button onClick={toNextPage}>
+                <button onClick={toNextPage} disabled={!casesStore.paginatedCases?.isNextPageAvailable}>
                     <ArrowRight className="h-7 w-7" />
                 </button>
             </div>
