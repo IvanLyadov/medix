@@ -15,7 +15,7 @@ import { NewCase } from './components/case/new-case';
 
 export const App = () => {
   useEffect(() => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYjYxMWNhNTYtMWMwZC00YjZhLWEyMWUtN2UyZGUxYjlhZjkwIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiU3VwZXJ1c2VyIiwibmJmIjoxNjgyODYzOTIxLCJleHAiOjE2ODI4Njc1MjEsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.1cIFMn73mD9745c2jUDxDLihVfD0LTUo2_qH92gU0eY"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYjYxMWNhNTYtMWMwZC00YjZhLWEyMWUtN2UyZGUxYjlhZjkwIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiU3VwZXJ1c2VyIiwibmJmIjoxNjgyODc3MDU5LCJleHAiOjE2ODI4ODA2NTksImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.VeVxyx6JrN6b-MSsXBTMBU5AVs5lhmxf79vhx09BHt4"
     setTokenForHttpClient(token);
   }, []);
 

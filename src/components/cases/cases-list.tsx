@@ -98,6 +98,12 @@ export const CasesList = () => {
         }
     }
 
+    const getPagerText = (): string => {
+        const lastItemNumber = casesStore.casesFilter.offset + (casesStore.paginatedCases?.cases.length || 0);
+        const firstItemNumber = lastItemNumber !== 0 ? casesStore.casesFilter.offset + 1 : 0;
+        return lastItemNumber !== 0 ? `${firstItemNumber} - ${lastItemNumber}` : '0 - 0';
+    };
+
     return (
         <article className="flex flex-col h-full">
             <div className="flex justify-between py-2 pl-4">
@@ -171,7 +177,7 @@ export const CasesList = () => {
                     <ArrowLeft className="h-7 w-7" />
                 </button>
                 <div className="mt-2">
-                    1...1
+                    {getPagerText()}
                 </div>
                 <button onClick={toNextPage} disabled={!casesStore.paginatedCases?.isNextPageAvailable}>
                     <ArrowRight className="h-7 w-7" />
