@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useParams } from "react-router-dom";
 import { createCase } from "../../services/cases.service";
 
-export const CreateCase = () => {
+export const NewCase = () => {
     const [primaryComplaint, setPrimaryComplaint] = useState('');
     const [error, setError] = useState<string | null>('');
 
@@ -37,14 +37,14 @@ export const CreateCase = () => {
 
     return (
         <article className="flex flex-col h-full p-5">
-            <div className="w-[100%]  bg-[#384578] text-white py-2 mb-5 flex flex-row">
-                <ArrowLeft className="h-7 w-7 text-white fill-white ml-2" />
-                <span className="text-center m-auto text-white font-bold">New Case</span>
+            <div className="w-[100%]  bg-blue-5 py-2 mb-5 flex flex-row">
+                <ArrowLeft className="h-7 w-7 ml-2" />
+                <span className="text-center text-xl m-auto font-bold">New Case</span>
             </div>
             <div className="grid grid-cols-1 gap-4 mb-5">
                 <div className="w-full">
                     <label>
-                        <span>Primary Complaint*</span>
+                        <span className="font-bold">Primary Complaint*</span>
                         {error && <span className="ml-2 text-red-500 text-xs">{error}</span>}
                     </label>
                     <textarea value={primaryComplaint} onChange={(event) => changeHandler(event.target.value)} name="primaryComplaint" className="w-full p-2"></textarea>
@@ -52,7 +52,7 @@ export const CreateCase = () => {
             </div>
 
             <div className="">
-                <button className="w-auto inline-block py-2 px-5 mb-4 bg-[#384578] text-white" onClick={() => handleSubmit()} >Save</button>
+                <button className="w-auto inline-block py-2 px-5 mb-4 font-bold border-2 rounded-md bg-blue-4 hover:bg-blue-5" onClick={() => handleSubmit()} >Save</button>
             </div>
         </article>
 

@@ -12,8 +12,6 @@ export const setTokenForHttpClient = (token: string) => {
   };
 
 const casesUrl = `${process.env.REACT_APP_API_URL}/api/cases`;
-const patientCards = `${process.env.REACT_APP_API_URL}/api/patient-cards`;
-const newCase = `${process.env.REACT_APP_API_URL}/api/patient-case`;
 
 export const getCases = async (casesFilter: CasesFilter): Promise<PaginatedCases> => {
     let params: Params = {
@@ -39,12 +37,7 @@ export const getCases = async (casesFilter: CasesFilter): Promise<PaginatedCases
         
 // }
 
-export const createPatientCard = async (patientCardData: PatientCardInfo): Promise<any> => {
-    const { data } = await axios.post(patientCards, patientCardData);
-    return data;
-}
-
 export const createCase = async (caseData: CreateCase): Promise<any> => {
-    const { data } = await axios.post(newCase, caseData);
+    const { data } = await axios.post(casesUrl, caseData);
     return data;
 }

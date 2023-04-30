@@ -2,7 +2,7 @@ import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { createPatientCard } from "../../services/cases.service";
+import { createPatientCard } from "../../services/patient-cards.service";
 
 interface FormData {
     firstName: string;
@@ -13,7 +13,7 @@ interface FormData {
     email: string;
 }
 
-export const PatientCard = () => {
+export const NewPatientCard = () => {
     const handleDateChange = (value: any) => {
 
         const newFormData = { ...formData, dateOfBirth: new Date(value).toISOString() };
@@ -30,7 +30,7 @@ export const PatientCard = () => {
     const [formData, setFormData] = useState<FormData>({
         firstName: '',
         lastName: '',
-        middleName: '',
+        middleName: undefined,
         dateOfBirth: '',
         phoneNumber: '',
         email: '',
@@ -85,16 +85,16 @@ export const PatientCard = () => {
 
     return (
         <article className="flex flex-col h-full p-5">
-            <div className="w-[100%]  bg-[#384578] text-white py-2 mb-5 flex flex-row">
-                <ArrowLeft className="h-7 w-7 text-white fill-white ml-2" />
-                <span className="text-center m-auto text-white font-bold">New Patient</span>
+            <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
+                <ArrowLeft className="h-7 w-7 ml-2" />
+                <span className="text-center text-xl m-auto font-bold">New Patient</span>
             </div>
             <div className="grid grid-cols- mb-5">
                 <div className="max-w-[600px]">
                     <form>
 
                         <label>
-                            <span>First Name*</span>
+                            <span className="font-bold">First Name*</span>
                             {errors.firstName && <span className="ml-2 text-red-500 text-xs">{errors.firstName}</span>}
 
                         </label>
@@ -107,7 +107,7 @@ export const PatientCard = () => {
                         />
 
                         <label>
-                            <span>Last Name*</span>
+                            <span className="font-bold">Last Name*</span>
                             {errors.lastName && <span className="ml-2 text-red-500 text-xs">{errors.lastName}</span>}
 
                         </label>
@@ -119,7 +119,7 @@ export const PatientCard = () => {
                             onChange={handleChange}
                         />
 
-                        <label>Middle Name</label>
+                        <label className="font-bold">Middle Name</label>
                         <input
                             type="text"
                             name="middleName"
@@ -129,7 +129,7 @@ export const PatientCard = () => {
                         />
 
                         <label>
-                            <span>Date of birth*</span>
+                            <span className="font-bold">Date of birth*</span>
                             {errors.dateOfBirth && <span className="ml-2 text-red-500 text-xs">{errors.dateOfBirth}</span>}
 
                         </label>
@@ -145,7 +145,7 @@ export const PatientCard = () => {
 
 
                         <label>
-                            <span>Phone number*</span>
+                            <span className="font-bold">Phone number*</span>
                             {errors.phoneNumber && <span className="ml-2 text-red-500 text-xs">{errors.phoneNumber}</span>}
 
                         </label>
@@ -158,7 +158,7 @@ export const PatientCard = () => {
                         />
 
                         <label>
-                            <span>Email*</span>
+                            <span className="font-bold">Email*</span>
                             {errors.email && <span className="ml-2 text-red-500 text-xs">{errors.email}</span>}
 
                         </label>
@@ -176,7 +176,7 @@ export const PatientCard = () => {
             </div>
 
             <div className="">
-                <button className="w-auto inline-block py-2 px-5 mb-4 bg-[#384578] text-white" onClick={handleSubmit} >Save</button>
+                <button className="w-auto inline-block py-2 px-5 mb-4 font-bold border-2 rounded-md bg-blue-4 hover:bg-blue-5" onClick={handleSubmit} >Save</button>
             </div>
         </article>
 
