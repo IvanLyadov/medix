@@ -7,7 +7,6 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow_up.svg";
 import { ReactComponent as ArrowDown } from "../../assets/icons/arrow_down.svg";
 import { ReactComponent as Active } from "../../assets/icons/active.svg";
 import { ReactComponent as Inactive } from "../../assets/icons/inactive.svg";
-import { Case } from "../../models/case/case";
 import "./cases-list.css";
 import { SortOrder } from "../../models/sort-order";
 import { useCallback, useEffect } from "react";
@@ -109,7 +108,7 @@ export const CasesList = () => {
             <div className="flex justify-between py-2 pl-4">
                 <div className="flex flex-row">
                     <div className="text-3xl mr-4">Cases</div>
-                    <button className="flex flex-row border-2 pl-2 pr-4 pt-2 font-bold rounded-md bg-blue-4 hover:bg-blue-5">
+                    <button className="flex flex-row border-2 pl-2 pr-4 pt-1.5 pb-1.5 font-bold rounded-md bg-blue-4 hover:bg-blue-5">
                         <Plus className="fill-green-1 h-5 w-5" />
                         New Case
                     </button>

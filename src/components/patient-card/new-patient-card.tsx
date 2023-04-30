@@ -3,6 +3,7 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createPatientCard } from "../../services/patient-cards.service";
+import { Link } from "react-router-dom";
 
 interface FormData {
     firstName: string;
@@ -78,15 +79,21 @@ export const NewPatientCard = () => {
         const errors = validate(formData);
         setErrors(errors);
         if (Object.keys(errors).length === 0) {
-            console.log(formData);
             createPatientCard(formData);
+            goBack();
         }
     };
+
+    const goBack = () => {
+        window.history.back();
+    }
 
     return (
         <article className="flex flex-col h-full p-5">
             <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
-                <ArrowLeft className="h-7 w-7 ml-2" />
+                <button onClick={goBack}>
+                    <ArrowLeft className="h-7 w-7 ml-2" />
+                </button>
                 <span className="text-center text-xl m-auto font-bold">New Patient</span>
             </div>
             <div className="grid grid-cols- mb-5">

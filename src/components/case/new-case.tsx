@@ -34,11 +34,16 @@ export const NewCase = () => {
         setPrimaryComplaint(value);
     }
 
+    const goBack = () => {
+        window.history.back();
+    }
 
     return (
         <article className="flex flex-col h-full p-5">
-            <div className="w-[100%]  bg-blue-5 py-2 mb-5 flex flex-row">
-                <ArrowLeft className="h-7 w-7 ml-2" />
+            <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
+                <button onClick={goBack}>
+                    <ArrowLeft className="h-7 w-7 ml-2" />
+                </button>
                 <span className="text-center text-xl m-auto font-bold">New Case</span>
             </div>
             <div className="grid grid-cols-1 gap-4 mb-5">
