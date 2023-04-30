@@ -2,6 +2,7 @@ import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { createPatientCard } from "../../services/cases.service";
 
 interface FormData {
     firstName: string;
@@ -15,7 +16,7 @@ interface FormData {
 export const PatientCard = () => {
     const handleDateChange = (value: any) => {
 
-        const newFormData = { ...formData, dateOfBirth: new Date(value).toString() };
+        const newFormData = { ...formData, dateOfBirth: new Date(value).toISOString() };
         setFormData(newFormData);
         const newErrors = validate(newFormData);
         setErrors(newErrors);
@@ -78,7 +79,7 @@ export const PatientCard = () => {
         setErrors(errors);
         if (Object.keys(errors).length === 0) {
             console.log(formData);
-            // handle form submission here
+            createPatientCard(formData);
         }
     };
 

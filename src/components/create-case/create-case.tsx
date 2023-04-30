@@ -2,6 +2,7 @@ import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useParams } from "react-router-dom";
+import { createCase } from "../../services/cases.service";
 
 export const CreateCase = () => {
     const [primaryComplaint, setPrimaryComplaint] = useState('');
@@ -15,11 +16,13 @@ export const CreateCase = () => {
             return;
         }
 
-        const formData = {
-            primaryComplaint,
-            patientCardId,
+        if (patientCardId) {
+            const formData = {
+                primaryComplaint,
+                patientCardId,
+            }
+            createCase(formData);
         }
-        console.log('submit data', formData);
     }
 
     const changeHandler = (value: string) => {

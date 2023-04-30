@@ -8,3 +8,8 @@ export interface Case {
     createdAtUtc: string;
     closedAtUtc?: string;
 }
+
+export interface CreateCase {
+    primaryComplaint: string;
+    patientCardId: string;
+}

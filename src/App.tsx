@@ -32,8 +32,8 @@ export const App = () => {
           <Route path="/case" element={<CaseDetail />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/patientCards" element={<PatientCards />} />
-          <Route path="/newPatientCard" element={<PatientCard />} />
-          <Route path="/newCase/:patientCardId" element={<CreateCase />} />
+          <Route path="/new-patient-card" element={<PatientCard />} />
+          <Route path="/new-case/:patientCardId" element={<CreateCase />} />
         </Routes>
 
       </div>
