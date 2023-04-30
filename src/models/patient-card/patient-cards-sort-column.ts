@@ -1,6 +1,6 @@
 export enum PatientCardsSortColumn {
-    CreatedAtUtc,
-    FirstName,
-    LastName,
-    DateOfBirth
+    CreatedAtUtc = "createdAtUtc",
+    FirstName = "firstName",
+    LastName = "lastName",
+    DateOfBirth = "dateOfBirth"
 }

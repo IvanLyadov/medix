@@ -2,11 +2,16 @@ import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
 
 export const CaseDetail = () => {
+    const goBack = () => {
+        window.history.back();
+    }
     return (
         <article className="flex flex-col h-full p-5">
-            <div className="w-[100%]  bg-[#384578] text-white py-2 mb-5 flex flex-row">
-                <ArrowLeft className="h-7 w-7 text-white fill-white ml-2" />
-                <span className="text-center m-auto text-white font-bold">Case Detail</span>
+            <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
+                <button onClick={goBack}>
+                    <ArrowLeft className="h-7 w-7 ml-2" />
+                </button>
+                <span className="text-center text-xl m-auto font-bold">Case Details</span>
             </div>
             <div className="grid grid-cols-3 gap-4 mb-5">
                 <div className="flex flex-col">
@@ -62,10 +67,10 @@ export const CaseDetail = () => {
 
             <div>
                 <div className="grid grid-cols-4 gap-4 mb-5">
-                    <div className="font-bold bg-[#802828] text-center text-white p-1 mb-1 cursor-pointer">Appointments</div>
-                    <div className="font-bold bg-[#802828] text-center text-white p-1 mb-1 cursor-pointer">Case Discusstion</div>
-                    <div className="font-bold bg-[#802828] text-center text-white p-1 mb-1 cursor-pointer">Attachments</div>
-                    <div className="font-bold bg-[#802828] text-center text-white p-1 mb-1 cursor-pointer">Case Logs</div>
+                    <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Appointments</div>
+                    <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Discusstion</div>
+                    <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Attachments</div>
+                    <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Logs</div>
                 </div>
             </div>
 
