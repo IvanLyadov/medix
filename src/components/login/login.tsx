@@ -69,7 +69,7 @@ export const Login = () => {
 
                     </label>
                     <input
-                        type="text"
+                        type="password"
                         name="password"
                         className="mb-4 w-full pl-1 py-1"
                         value={formData.password}
