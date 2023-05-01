@@ -12,6 +12,7 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import { useEffect } from 'react';
 import { setTokenForHttpClient } from './services/cases.service';
 import { NewCase } from './components/case/new-case';
+import { Login } from './components/login/login';
 
 export const App = () => {
   useEffect(() => {
@@ -34,6 +35,7 @@ export const App = () => {
           <Route path="/patientCards" element={<PatientCardsList />} />
           <Route path="/patientCards/new" element={<NewPatientCard />} />
           <Route path="/new-case/:patientCardId" element={<NewCase />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
 
       </div>
