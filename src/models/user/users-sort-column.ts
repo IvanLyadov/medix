@@ -1,5 +1,5 @@
 export enum UsersSortColumn{
-    CreatedAtUtc,
-    FirstName,
-    LastName
+    CreatedAtUtc ="createdAtUtc",
+    FirstName = "firstName",
+    LastName = "lastName"
 }

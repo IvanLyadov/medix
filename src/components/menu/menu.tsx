@@ -10,6 +10,9 @@ export const Menu = () => {
             <div className="cursor-pointer">
                 <Link to="/patientCards">Patient Cards</Link>
             </div>
+            <div className="cursor-pointer">
+                <Link to="/users">Users</Link>
+            </div>
         </div>
     );
 };
