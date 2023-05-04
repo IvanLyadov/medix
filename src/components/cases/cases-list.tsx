@@ -28,7 +28,7 @@ export const CasesList = () => {
     useEffect(() => {
         const timeout = setTimeout(fetchCases, 500);
         return () => clearTimeout(timeout);
-    },[casesStore.casesFilter]);
+    }, [casesStore.casesFilter]);
 
     const formatDateTime = (dateTime: string): string => {
         const date = moment.utc(dateTime);
@@ -38,42 +38,42 @@ export const CasesList = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        var newFilter = {...casesStore.casesFilter};
+        var newFilter = { ...casesStore.casesFilter };
         newFilter.search = value;
         newFilter.limit = defaultLimit;
         newFilter.offset = defaultOffset;
         casesStore.updateCasesFilter(newFilter);
-      }
+    }
 
     const debouncedHandleChange = debounce(handleChange, 800);
 
     const toPreviousPage = () => {
         const offset = casesStore.casesFilter.offset - defaultLimit;
 
-        var newFilter = {...casesStore.casesFilter};
+        var newFilter = { ...casesStore.casesFilter };
         newFilter.offset = offset >= 0 ? offset : 0;
         casesStore.updateCasesFilter(newFilter);
     };
 
     const toNextPage = () => {
-        var newFilter = {...casesStore.casesFilter};
+        var newFilter = { ...casesStore.casesFilter };
         newFilter.offset += defaultLimit;
-        
+
         casesStore.updateCasesFilter(newFilter);
     };
 
     const sortrDate = (order: SortOrder) => {
-        var newFilter = {...casesStore.casesFilter};
+        var newFilter = { ...casesStore.casesFilter };
         newFilter.casesSortState.sortOrder = order;
         casesStore.updateCasesFilter(newFilter);
     };
 
     const filterStatus = (isActive: boolean) => {
-        var newFilter = {...casesStore.casesFilter};
+        var newFilter = { ...casesStore.casesFilter };
 
         let res: boolean | undefined = undefined;
 
-        if (casesStore.casesFilter.isActive != isActive){
+        if (casesStore.casesFilter.isActive != isActive) {
             res = isActive;
         }
 
@@ -82,7 +82,7 @@ export const CasesList = () => {
     };
 
     const getActiveStatusFilterBtnClass = (): string => {
-        if (casesStore.casesFilter.isActive){
+        if (casesStore.casesFilter.isActive) {
             return "fill-green-600"
         } else {
             return "";
@@ -90,7 +90,7 @@ export const CasesList = () => {
     }
 
     const getInactiveStatusFilterBtnClass = (): string => {
-        if (casesStore.casesFilter.isActive !== undefined && !casesStore.casesFilter.isActive){
+        if (casesStore.casesFilter.isActive !== undefined && !casesStore.casesFilter.isActive) {
             return "fill-red-600"
         } else {
             return "";
@@ -115,7 +115,7 @@ export const CasesList = () => {
                 </div>
                 <div className="flex flex-row">
                     <Search className="mt-2 mr-3 h-5 w-5" />
-                    <input className="mr-6 mt-2 h-6 w-52 rounded-md border-2" placeholder="Search" type="text" onChange={debouncedHandleChange}/>
+                    <input className="mr-6 mt-2 h-6 w-52 rounded-md border-2" placeholder="Search" type="text" onChange={debouncedHandleChange} />
                 </div>
             </div>
 
@@ -166,7 +166,7 @@ export const CasesList = () => {
                             <div className="pt-1 pl-2 truncate">{c.patientCard.firstName} {c.patientCard.lastName}</div>
                             <div className="pt-1 pl-2 truncate">{c.primaryComplaint}</div>
                             <div className="pt-1 pl-2 truncate">{c.diagnosis}</div>
-                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={"/case"}>Details</Link>
+                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={`case/${c.id}`}>Details</Link>
                         </div>
                     )
                 })}

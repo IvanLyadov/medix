@@ -186,6 +186,9 @@ export const PatientCardsList = () => {
                             <div className="pt-1 pl-2 truncate">{pc.lastName}</div>
                             <div className="pt-1 pl-2 truncate">{formatDate(pc.dateOfBirth)}</div>
                             <div className="pt-1 pl-2 truncate">{pc.phoneNumber}</div>
+                            <Link title="Add new case" className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={`/new-case/${pc.id}`}>
+                                <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
+                            </Link>
                             <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={"/"}>Details</Link>
                         </div>
                     )
