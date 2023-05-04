@@ -18,10 +18,10 @@ export const CaseDetail = () => {
 
 
     useEffect(() => {
-        const filteredCase = casesStore.paginatedCases?.cases.filter(item => item.id === caseId);
-        filteredCase && setPatientCase(filteredCase[0]);
-        console.log('paginatedCases', filteredCase)
+        const filteredCase = casesStore.paginatedCases?.cases.find(item => item.id === caseId);
+        filteredCase && setPatientCase(filteredCase);
     }, [])
+
     return (
         <article className="flex flex-col h-full p-5">
             <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
