@@ -30,7 +30,7 @@ export const App = () => {
       <div className="content bg-blue-3">
         <Routes>
           <Route path="/" element={<CasesList />} />
-          <Route path="/case" element={<CaseDetail />} />
+          <Route path="/case/:caseId" element={<CaseDetail />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/patientCards" element={<PatientCardsList />} />
           <Route path="/patientCards/new" element={<NewPatientCard />} />

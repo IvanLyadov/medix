@@ -22,6 +22,7 @@ export const NewCase = () => {
                 patientCardId,
             }
             createCase(formData);
+            goBack();
         }
     }
 

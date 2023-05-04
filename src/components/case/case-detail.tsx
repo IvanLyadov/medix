@@ -1,10 +1,27 @@
+import { useEffect, useState } from "react";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
+import { casesState } from "../../store/casesState";
+import { useParams } from "react-router-dom";
+import { Case } from "../../models/case/case";
+import moment from "moment";
 
 export const CaseDetail = () => {
     const goBack = () => {
         window.history.back();
     }
+    const [patientCase, setPatientCase] = useState<Case | null>(null);
+
+    const { caseId } = useParams();
+
+    const casesStore = casesState.getState();
+
+
+    useEffect(() => {
+        const filteredCase = casesStore.paginatedCases?.cases.filter(item => item.id === caseId);
+        filteredCase && setPatientCase(filteredCase[0]);
+        console.log('paginatedCases', filteredCase)
+    }, [])
     return (
         <article className="flex flex-col h-full p-5">
             <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
@@ -16,11 +33,15 @@ export const CaseDetail = () => {
             <div className="grid grid-cols-3 gap-4 mb-5">
                 <div className="flex flex-col">
                     <span className="font-bold">Patient:</span>
-                    <span className="">John Doe</span>
+                    <span className="">
+                        {`${patientCase?.patientCard.firstName} ${patientCase?.patientCard.lastName}`}
+                    </span>
                 </div>
                 <div className="flex flex-col">
                     <span className="font-bold">Date of opening:</span>
-                    <span className="text-[#3030ba] font-bold text-xs">03/31/2023</span>
+                    <span className="text-[#3030ba] font-bold text-xs">
+                        {moment.utc(patientCase?.createdAtUtc).format('MM/DD/YYYY')}
+                    </span>
                 </div>
                 <div className="flex flex-col">
                     <span className="font-bold">Case Status:</span>
@@ -31,14 +52,14 @@ export const CaseDetail = () => {
             <div className="grid grid-cols-3 gap-4 mb-5">
                 <div className="flex flex-col">
                     <span className="font-bold">Primary Complaint:</span>
-                    <span>Lorem ipsum</span>
+                    <span>{patientCase?.primaryComplaint}</span>
                 </div>
                 <div className="flex flex-col">
                     <span className="flex flex-row">
                         <span className="font-bold">Diagnosis:</span>
                         <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
                     </span>
-                    <span>Perpetuates disinformation</span>
+                    <span>{patientCase?.diagnosis}</span>
                 </div>
             </div>
 
