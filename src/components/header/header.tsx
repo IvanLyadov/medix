@@ -2,12 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { ReactComponent as Profile } from "../../assets/icons/profile.svg";
 import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
+import { useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN_KEY, USER_ID_KEY } from "../../services/auth.service";
 
 export const Header = () => {
+    const navigate = useNavigate();
     const [isMenuOpened, setMenuOpened] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
-    const appState = useStore(sessionState);
+    const sessionStore = useStore(sessionState);
 
     const hideMenuHandler = () => {
         setMenuOpened(!isMenuOpened);
@@ -34,6 +37,13 @@ export const Header = () => {
 
     });
 
+    const handleLogOut = () => {
+        localStorage.removeItem(ACCESS_TOKEN_KEY);
+        localStorage.removeItem(USER_ID_KEY);
+        sessionStore.updateUser(undefined);
+        navigate("/");
+    };
+
     return (
         <header>
             <div className="bg-blue-1 h-16 border-b-2">
@@ -43,15 +53,15 @@ export const Header = () => {
                         Medix
                     </a>
 
-                    <div id="account-menu" ref={menuRef} onClick={hideMenuHandler} className="relative flex flex-col items-center mt-2 mr-3 cursor-pointer hover:text-slate-400">
+                    {sessionStore.loggedInUser && <div id="account-menu" ref={menuRef} onClick={hideMenuHandler} className="relative flex flex-col items-center mt-2 mr-3 cursor-pointer hover:text-slate-400">
                         <Profile className="h-6 w-6" />
                         <div className="font-bold">
-                            {appState.loggedInUser?.firstName} {appState.loggedInUser?.lastName}
+                            {sessionStore.loggedInUser.firstName} {sessionStore.loggedInUser.lastName}
                         </div>
-                    </div >
+                    </div >}
                     {isMenuOpened && <div className="absolute flex flex-col right-0 top-16 w-40 items-center border-2 bg-white">
                         <div className="h-8 w-full text-center cursor-pointer hover:bg-slate-400">Profile</div>
-                        <div className="h-8 w-full text-center cursor-pointer hover:bg-slate-400">LogOut</div>
+                        <div className="h-8 w-full text-center cursor-pointer hover:bg-slate-400" onClick={handleLogOut}>LogOut</div>
                     </div>}
 
                 </nav >

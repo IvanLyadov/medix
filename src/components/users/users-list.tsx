@@ -15,8 +15,10 @@ import { defaultLimit, defaultOffset } from "../../models/model-constants";
 import { usersState } from '../../store/usersState';
 import { getUsers } from '../../services/users.service';
 import { UsersSortColumn } from '../../models/user/users-sort-column';
+import { sessionState } from '../../store/appState';
 
 export const UsersList = () => {
+    const sessionStore = useStore(sessionState);
     const usersStore = useStore(usersState);
 
     const fetchUsers = useCallback(async () => {
@@ -25,9 +27,10 @@ export const UsersList = () => {
     }, [usersStore]);
 
     useEffect(() => {
-        const timeout = setTimeout(fetchUsers, 500);
-        return () => clearTimeout(timeout);
-    }, [usersStore.usersFilter]);
+        if (sessionStore.loggedInUser){
+            fetchUsers();
+        }
+    }, [usersStore.usersFilter, sessionStore.loggedInUser]);
 
     const formatDateTime = (dateTime: string): string => {
         const date = moment.utc(dateTime);

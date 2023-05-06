@@ -15,8 +15,10 @@ import { defaultLimit, defaultOffset } from "../../models/model-constants";
 import { getPatientCards } from '../../services/patient-cards.service';
 import { patientCardsState } from '../../store/patientCardsState';
 import { PatientCardsSortColumn } from '../../models/patient-card/patient-cards-sort-column';
+import { sessionState } from '../../store/appState';
 
 export const PatientCardsList = () => {
+    const sessionStore = useStore(sessionState);
     const patientCardsStore = useStore(patientCardsState);
 
     const fetchPatientCards = useCallback(async () => {
@@ -25,9 +27,10 @@ export const PatientCardsList = () => {
     }, [patientCardsStore]);
 
     useEffect(() => {
-        const timeout = setTimeout(fetchPatientCards, 500);
-        return () => clearTimeout(timeout);
-    }, [patientCardsStore.patientCardsFilter]);
+        if (sessionStore.loggedInUser){
+            fetchPatientCards();
+        }
+    }, [patientCardsStore.patientCardsFilter, sessionStore.loggedInUser]);
 
     const formatDateTime = (dateTime: string): string => {
         const date = moment.utc(dateTime);
@@ -186,8 +189,9 @@ export const PatientCardsList = () => {
                             <div className="pt-1 pl-2 truncate">{pc.lastName}</div>
                             <div className="pt-1 pl-2 truncate">{formatDate(pc.dateOfBirth)}</div>
                             <div className="pt-1 pl-2 truncate">{pc.phoneNumber}</div>
-                            <Link title="Add new case" className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={`/new-case/${pc.id}`}>
+                            <Link title="Add new case" className="flex flex-row mt-1.5 px-1 truncate text-blue-400 cursor-pointer h-fit border-2 rounded-md border-blue-5" to={`/new-case/${pc.id}`}>
                                 <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
+                                <span className="text-blue-400">New Case</span>
                             </Link>
                             <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={"/"}>Details</Link>
                         </div>

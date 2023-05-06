@@ -8,18 +8,34 @@ import { CaseDetail } from './components/case/case-detail';
 import { Calendar } from './components/calendar/calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-import { useEffect } from 'react';
-import { setTokenForHttpClient } from './services/cases.service';
 import { NewCase } from './components/case/new-case';
 import { Login } from './components/login/login';
 import { UsersList } from './components/users/users-list';
 import { PatientCardsList } from './components/patient-cards/patient-cards-list';
+import { useInterceptor } from './hooks/use-interceptor';
+import { useCallback, useEffect } from 'react';
+import { ACCESS_TOKEN_KEY, setTokenForHttpClient, USER_ID_KEY } from './services/auth.service';
+import { useStore } from 'zustand';
+import { sessionState } from './store/appState';
+import { getUser } from './services/users.service';
 
 export const App = () => {
-  useEffect(() => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYjYxMWNhNTYtMWMwZC00YjZhLWEyMWUtN2UyZGUxYjlhZjkwIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiU3VwZXJ1c2VyIiwibmJmIjoxNjgyOTY3ODYzLCJleHAiOjE2ODI5NzE0NjMsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.nqfoCLRscEjr42Z0n6xjedhewqmWK4v_91vORwawLGQ"
-    setTokenForHttpClient(token);
+  const sessionStore = useStore(sessionState);
+  useInterceptor();
+
+  const setToken = useCallback(async () => {
+    var token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    var userId = localStorage.getItem(USER_ID_KEY);
+    if (token && userId){
+      setTokenForHttpClient(token);
+      const user = await getUser(userId);
+      sessionStore.updateUser(user);
+    }
   }, []);
+
+  useEffect(() => {
+    setToken();
+  }, [])
 
   return (
     <div className="grid-container">
@@ -27,14 +43,15 @@ export const App = () => {
         <Header />
       </div>
 
-      <div className="menu"><Menu /></div>
+      <div className="menu">
+        {sessionStore.loggedInUser && <Menu />}
+        </div>
       <div className="content bg-blue-3">
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<CasesList />} />
-          <Route path="/case/:caseId" element={<CaseDetail />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/cases" element={<CasesList />} />
+          <Route path="/cases/:caseId" element={<CaseDetail />} />
           <Route path="/calendar" element={<Calendar />} />
-          <Route path="/case" element={<CaseDetail />} />
           <Route path="/patientCards" element={<PatientCardsList />} />
           <Route path="/patientCards/new" element={<NewPatientCard />} />
           <Route path="/new-case/:patientCardId" element={<NewCase />} />
