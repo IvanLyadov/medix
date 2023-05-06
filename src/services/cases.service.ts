@@ -1,15 +1,8 @@
 import axios from "axios";
-import http from "axios";
 import { Params } from "react-router-dom";
 import { CasesFilter } from "../models/case/cases-filter";
-import { FullCase } from "../models/case/full-case";
 import { PaginatedCases } from "../models/case/paginated-cases";
-import { PatientCardInfo } from "../models/patient-card/patient-card";
 import { CreateCase } from "../models/case/case";
-
-export const setTokenForHttpClient = (token: string) => {
-    http.defaults.headers.common.Authorization = `Bearer ${token}`;
-  };
 
 const casesUrl = `${process.env.REACT_APP_API_URL}/api/cases`;
 

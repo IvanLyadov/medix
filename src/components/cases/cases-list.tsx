@@ -16,8 +16,10 @@ import { casesState } from "../../store/casesState";
 import { getCases } from "../../services/cases.service";
 import moment from "moment";
 import { defaultLimit, defaultOffset } from "../../models/model-constants";
+import { sessionState } from '../../store/appState';
 
 export const CasesList = () => {
+    const sessionStore = useStore(sessionState);
     const casesStore = useStore(casesState);
 
     const fetchCases = useCallback(async () => {
@@ -26,9 +28,10 @@ export const CasesList = () => {
     }, [casesStore]);
 
     useEffect(() => {
-        const timeout = setTimeout(fetchCases, 500);
-        return () => clearTimeout(timeout);
-    }, [casesStore.casesFilter]);
+        if (sessionStore.loggedInUser){
+            fetchCases();
+        }
+    }, [casesStore.casesFilter, sessionStore.loggedInUser]);
 
     const formatDateTime = (dateTime: string): string => {
         const date = moment.utc(dateTime);
@@ -108,10 +111,6 @@ export const CasesList = () => {
             <div className="flex justify-between py-2 pl-4">
                 <div className="flex flex-row">
                     <div className="text-3xl mr-4">Cases</div>
-                    <button className="flex flex-row border-2 pl-2 pr-4 pt-1.5 pb-1.5 font-bold rounded-md bg-blue-4 hover:bg-blue-5">
-                        <Plus className="fill-green-1 h-5 w-5" />
-                        New Case
-                    </button>
                 </div>
                 <div className="flex flex-row">
                     <Search className="mt-2 mr-3 h-5 w-5" />
@@ -166,7 +165,7 @@ export const CasesList = () => {
                             <div className="pt-1 pl-2 truncate">{c.patientCard.firstName} {c.patientCard.lastName}</div>
                             <div className="pt-1 pl-2 truncate">{c.primaryComplaint}</div>
                             <div className="pt-1 pl-2 truncate">{c.diagnosis}</div>
-                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={`case/${c.id}`}>Details</Link>
+                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={`${c.id}`}>Details</Link>
                         </div>
                     )
                 })}
