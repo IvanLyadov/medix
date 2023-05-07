@@ -5,7 +5,7 @@ import { casesState } from "../../store/casesState";
 import { Link, useParams } from "react-router-dom";
 import { Case } from "../../models/case/case";
 import moment from "moment";
-import { SelectDoctorModal } from "../UI/select-doctor-modal";
+import { SelectDoctorModal, SelectDoctorModalType } from "../UI/select-doctor-modal";
 import { FullCase } from "../../models/case/full-case";
 import { getCase } from "../../services/cases.service";
 import { useStore } from "zustand";
@@ -85,11 +85,11 @@ export const CaseDetail = () => {
             <div>
                 <span className="font-bold">Doctors:</span>
                 <span className="font-bold">
-                    <SelectDoctorModal caseId={caseId!}/>
+                    <SelectDoctorModal caseId={caseId!} modalType={SelectDoctorModalType.AddDoctor}/>
                 </span>
                 <div className="grid grid-cols-3 gap-4 mb-5">
                     {patientCase && patientCase.doctors.map(d => {
-                        return <div className="font-bold bg-[#eee] p-1 mb-1">{d.firstName} {d.lastName} {d.jobTitle}</div>
+                        return <div key={d.id} className="font-bold bg-[#eee] p-1 mb-1">{d.firstName} {d.lastName} {d.jobTitle}</div>
                     })}
                 </div>
             </div>
