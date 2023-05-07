@@ -5,6 +5,7 @@ import { casesState } from "../../store/casesState";
 import { Link, useParams } from "react-router-dom";
 import { Case } from "../../models/case/case";
 import moment from "moment";
+import { DropDown } from "../UI/DropDown";
 
 export const CaseDetail = () => {
     const goBack = () => {
@@ -45,7 +46,7 @@ export const CaseDetail = () => {
                 </div>
                 <div className="flex flex-col">
                     <span className="font-bold">Case Status:</span>
-                    <span>Active</span>
+                    <span>{patientCase?.closedAtUtc ? "Closed" : "Active"}</span>
                 </div>
             </div>
 
@@ -75,6 +76,9 @@ export const CaseDetail = () => {
 
             <div>
                 <span className="font-bold">Doctors:</span>
+                <span className="font-bold">
+                    <DropDown />
+                </span>
                 <div className="grid grid-cols-3 gap-4 mb-5">
                     <div>
                         <div className="font-bold bg-[#eee] p-1 mb-1">Dave Thomas</div>
