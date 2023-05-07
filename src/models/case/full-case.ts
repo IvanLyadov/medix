@@ -6,6 +6,7 @@ export interface FullCase {
     patientCard: PatientCard;
     diagnosis?: string;
     primaryComplaint: string;
+    notes: string;
     doctors: User[];
     createdAtUtc: string;
     closedAtUtc?: string;

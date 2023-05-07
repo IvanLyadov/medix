@@ -97,13 +97,13 @@ export const AddUser = () => {
         setErrors(newErrors);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const errors = validate(formData);
         setErrors(errors);
         if (Object.keys(errors).length === 0) {
             console.log(formData)
 
-            registerUser(formData);
+            await registerUser(formData);
             goBack();
         }
     };
@@ -234,7 +234,7 @@ export const AddUser = () => {
                         >
 
                             {Object.keys(UserJobTitle).map((value) => (
-                                <option value={value}>{value}</option>
+                                <option key={value} value={value}>{value}</option>
                             ))}
 
                         </select>

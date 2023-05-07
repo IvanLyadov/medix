@@ -1,27 +1,35 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
 import { casesState } from "../../store/casesState";
 import { Link, useParams } from "react-router-dom";
 import { Case } from "../../models/case/case";
 import moment from "moment";
-import { DropDown } from "../UI/DropDown";
+import { SelectDoctorModal } from "../UI/select-doctor-modal";
+import { FullCase } from "../../models/case/full-case";
+import { getCase } from "../../services/cases.service";
+import { useStore } from "zustand";
+import { sessionState } from "../../store/appState";
 
 export const CaseDetail = () => {
+    const sessionStore = useStore(sessionState);
+    const { caseId } = useParams();
+    const [patientCase, setPatientCase] = useState<FullCase | null>(null);
+
+    const fetchCase = useCallback(async() => {
+        if (caseId){
+            const fullCase = await getCase(caseId);
+            setPatientCase(fullCase)
+        }
+    }, []);
+
+    useEffect(() => {
+        sessionStore.loggedInUser && fetchCase();
+    }, [])
+
     const goBack = () => {
         window.history.back();
     }
-    const [patientCase, setPatientCase] = useState<Case | null>(null);
-
-    const { caseId } = useParams();
-
-    const casesStore = casesState.getState();
-
-
-    useEffect(() => {
-        const filteredCase = casesStore.paginatedCases?.cases.find(item => item.id === caseId);
-        filteredCase && setPatientCase(filteredCase);
-    }, [])
 
     return (
         <article className="flex flex-col h-full p-5">
@@ -70,23 +78,19 @@ export const CaseDetail = () => {
                     <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
                 </span>
                 <p>
-                    In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available
+                    {patientCase?.notes}
                 </p>
             </div>
 
             <div>
                 <span className="font-bold">Doctors:</span>
                 <span className="font-bold">
-                    <DropDown />
+                    <SelectDoctorModal caseId={caseId!}/>
                 </span>
                 <div className="grid grid-cols-3 gap-4 mb-5">
-                    <div>
-                        <div className="font-bold bg-[#eee] p-1 mb-1">Dave Thomas</div>
-                        <div className="font-bold bg-[#eee] p-1 mb-1">Jerone Orreliene</div>
-                    </div>
-                    <div>
-                        <div className="font-bold bg-[#eee] p-1 mb-1">John Dacket</div>
-                    </div>
+                    {patientCase && patientCase.doctors.map(d => {
+                        return <div className="font-bold bg-[#eee] p-1 mb-1">{d.firstName} {d.lastName} {d.jobTitle}</div>
+                    })}
                 </div>
             </div>
 

@@ -26,3 +26,13 @@ export const getUser = async (userId: string): Promise<User> => {
     const { data } = await axios.get<User>(`${usersUrl}/${userId}`);
     return data;
 }
+
+export const getDoctors = async (search?: string): Promise<User[]> => {
+    let params: Params = {};
+    if (search != null) {
+        params = {...params, search: search}
+        }
+
+    const { data } = await axios.get<User[]>(`${usersUrl}/doctors`, {params: params});
+    return data;
+}
