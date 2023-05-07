@@ -17,6 +17,7 @@ import { getCases } from "../../services/cases.service";
 import moment from "moment";
 import { defaultLimit, defaultOffset } from "../../models/model-constants";
 import { sessionState } from '../../store/appState';
+import { formatDateTime } from '../../utils/date.util';
 
 export const CasesList = () => {
     const sessionStore = useStore(sessionState);
@@ -32,12 +33,6 @@ export const CasesList = () => {
             fetchCases();
         }
     }, [casesStore.casesFilter, sessionStore.loggedInUser]);
-
-    const formatDateTime = (dateTime: string): string => {
-        const date = moment.utc(dateTime);
-        const localDate = date.local();
-        return localDate.format('YYYY-MM-DD HH:mm');
-    }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;

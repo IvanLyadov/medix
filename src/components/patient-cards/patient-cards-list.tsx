@@ -16,6 +16,7 @@ import { getPatientCards } from '../../services/patient-cards.service';
 import { patientCardsState } from '../../store/patientCardsState';
 import { PatientCardsSortColumn } from '../../models/patient-card/patient-cards-sort-column';
 import { sessionState } from '../../store/appState';
+import { formatDateTime, formatDate } from '../../utils/date.util';
 
 export const PatientCardsList = () => {
     const sessionStore = useStore(sessionState);
@@ -31,18 +32,6 @@ export const PatientCardsList = () => {
             fetchPatientCards();
         }
     }, [patientCardsStore.patientCardsFilter, sessionStore.loggedInUser]);
-
-    const formatDateTime = (dateTime: string): string => {
-        const date = moment.utc(dateTime);
-        const localDate = date.local();
-        return localDate.format('YYYY-MM-DD HH:mm');
-    }
-
-    const formatDate = (dateTime: string): string => {
-        const date = moment.utc(dateTime);
-        const localDate = date.local();
-        return localDate.format('YYYY-MM-DD');
-    }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
