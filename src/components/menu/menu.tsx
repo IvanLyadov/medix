@@ -7,7 +7,7 @@ import "./menu.css";
 export const Menu = () => {
     const sessionStore = useStore(sessionState);
 
-    const canViewSchedule = sessionStore.loggedInUser?.role == UserRole.Doctor || sessionStore.loggedInUser?.role == UserRole.SuperUser
+    const canViewSchedule = sessionStore.loggedInUser?.role === UserRole.Doctor || sessionStore.loggedInUser?.role === UserRole.SuperUser
 
     return (
         <div className="menu-container bg-blue-2 h-full px-3">

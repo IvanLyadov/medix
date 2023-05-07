@@ -174,19 +174,6 @@ export const AddUser = () => {
 
                         <label>
                             <span className="font-bold">Phone number*</span>
-                            {errors.password && <span className="ml-2 text-red-500 text-xs">{errors.password}</span>}
-
-                        </label>
-                        <input
-                            type="text"
-                            name="password"
-                            className="mb-4 w-full pl-1 py-1"
-                            value={formData.password}
-                            onChange={handleChange}
-                        />
-
-                        <label>
-                            <span className="font-bold">Password*</span>
                             {errors.phoneNumber && <span className="ml-2 text-red-500 text-xs">{errors.phoneNumber}</span>}
 
                         </label>
@@ -195,6 +182,19 @@ export const AddUser = () => {
                             name="phoneNumber"
                             className="mb-4 w-full pl-1 py-1"
                             value={formData.phoneNumber}
+                            onChange={handleChange}
+                        />
+
+                        <label>
+                            <span className="font-bold">Password*</span>
+                            {errors.password && <span className="ml-2 text-red-500 text-xs">{errors.password}</span>}
+
+                        </label>
+                        <input
+                            type="text"
+                            name="password"
+                            className="mb-4 w-full pl-1 py-1"
+                            value={formData.password}
                             onChange={handleChange}
                         />
 

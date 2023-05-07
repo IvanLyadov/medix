@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
-import { casesState } from "../../store/casesState";
 import { Link, useParams } from "react-router-dom";
-import { Case } from "../../models/case/case";
 import moment from "moment";
 import { SelectDoctorModal, SelectDoctorModalType } from "../UI/select-doctor-modal";
 import { FullCase } from "../../models/case/full-case";
