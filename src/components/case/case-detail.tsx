@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
 import { casesState } from "../../store/casesState";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Case } from "../../models/case/case";
 import moment from "moment";
 
@@ -88,7 +88,9 @@ export const CaseDetail = () => {
 
             <div>
                 <div className="grid grid-cols-4 gap-4 mb-5">
-                    <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Appointments</div>
+                    <Link to={"appointments"}>
+                        <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Appointments</div>
+                    </Link>
                     <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Discusstion</div>
                     <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Attachments</div>
                     <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Logs</div>

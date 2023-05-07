@@ -20,6 +20,7 @@ import { ACCESS_TOKEN_KEY, setTokenForHttpClient, USER_ID_KEY } from './services
 import { useStore } from 'zustand';
 import { sessionState } from './store/appState';
 import { getUser } from './services/users.service';
+import { Appointments } from './components/appointments/appointments';
 
 export const App = () => {
   const sessionStore = useStore(sessionState);
@@ -53,7 +54,8 @@ export const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/cases" element={<CasesList />} />
           <Route path="/cases/:caseId" element={<CaseDetail />} />
-          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/cases/:caseId/appointments" element={<Appointments />} />
+          <Route path="/calendar/:doctorId/:caseId/:patientCardId" element={<Calendar />} />
           <Route path="/patientCards" element={<PatientCardsList />} />
           <Route path="/patientCards/new" element={<NewPatientCard />} />
           <Route path="/patient-cards-details/:patientCardId" element={<PatientCardDetails />} />

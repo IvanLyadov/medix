@@ -16,6 +16,7 @@ import { usersState } from '../../store/usersState';
 import { getUsers } from '../../services/users.service';
 import { UsersSortColumn } from '../../models/user/users-sort-column';
 import { sessionState } from '../../store/appState';
+import { formatDateTime } from '../../utils/date.util';
 
 export const UsersList = () => {
     const sessionStore = useStore(sessionState);
@@ -31,18 +32,6 @@ export const UsersList = () => {
             fetchUsers();
         }
     }, [usersStore.usersFilter, sessionStore.loggedInUser]);
-
-    const formatDateTime = (dateTime: string): string => {
-        const date = moment.utc(dateTime);
-        const localDate = date.local();
-        return localDate.format('YYYY-MM-DD HH:mm');
-    }
-
-    const formatDate = (dateTime: string): string => {
-        const date = moment.utc(dateTime);
-        const localDate = date.local();
-        return localDate.format('YYYY-MM-DD');
-    }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;

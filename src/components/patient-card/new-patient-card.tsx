@@ -3,7 +3,6 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createPatientCard } from "../../services/patient-cards.service";
-import { Link } from "react-router-dom";
 
 interface FormData {
     firstName: string;
