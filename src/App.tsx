@@ -4,6 +4,7 @@ import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { Menu } from './components/menu/menu';
 import { NewPatientCard } from './components/patient-card/new-patient-card';
+import { PatientCardDetails } from './components/patient-card-details/patient-card-details';
 import { CaseDetail } from './components/case/case-detail';
 import { Calendar } from './components/calendar/calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css"
@@ -26,7 +27,7 @@ export const App = () => {
   const setToken = useCallback(async () => {
     var token = localStorage.getItem(ACCESS_TOKEN_KEY);
     var userId = localStorage.getItem(USER_ID_KEY);
-    if (token && userId){
+    if (token && userId) {
       setTokenForHttpClient(token);
       const user = await getUser(userId);
       sessionStore.updateUser(user);
@@ -45,7 +46,7 @@ export const App = () => {
 
       <div className="menu">
         {sessionStore.loggedInUser && <Menu />}
-        </div>
+      </div>
       <div className="content bg-blue-3">
         <Routes>
           <Route path="/" element={<Login />} />
@@ -54,6 +55,7 @@ export const App = () => {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/patientCards" element={<PatientCardsList />} />
           <Route path="/patientCards/new" element={<NewPatientCard />} />
+          <Route path="/patient-cards-details/:patientCardId" element={<PatientCardDetails />} />
           <Route path="/new-case/:patientCardId" element={<NewCase />} />
           <Route path="/users" element={<UsersList />} />
           <Route path="/calendar" element={<Calendar />} />

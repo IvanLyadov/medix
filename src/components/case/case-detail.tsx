@@ -45,7 +45,7 @@ export const CaseDetail = () => {
                 </div>
                 <div className="flex flex-col">
                     <span className="font-bold">Case Status:</span>
-                    <span>Active</span>
+                    <span>{patientCase?.closedAtUtc ? "Closed" : "Active"}</span>
                 </div>
             </div>
 

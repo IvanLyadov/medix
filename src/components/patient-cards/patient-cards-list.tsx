@@ -27,7 +27,7 @@ export const PatientCardsList = () => {
     }, [patientCardsStore]);
 
     useEffect(() => {
-        if (sessionStore.loggedInUser){
+        if (sessionStore.loggedInUser) {
             fetchPatientCards();
         }
     }, [patientCardsStore.patientCardsFilter, sessionStore.loggedInUser]);
@@ -193,7 +193,7 @@ export const PatientCardsList = () => {
                                 <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
                                 <span className="text-blue-400">New Case</span>
                             </Link>
-                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={"/"}>Details</Link>
+                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={`/patient-cards-details/${pc.id}`}>Details</Link>
                         </div>
                     )
                 })}
