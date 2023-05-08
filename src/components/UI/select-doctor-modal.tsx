@@ -35,7 +35,7 @@ export const SelectDoctorModal = ({ caseId, patientCardId, modalType }: SelectDo
     if (sessionStore.loggedInUser) {
       fetchDoctors();
     }
-  }, [search]);
+  }, [search, sessionStore.loggedInUser]);
 
   const searchHandler = (value: string) => {
     setSearch(value);

@@ -94,7 +94,7 @@ export const CaseDetail = () => {
 
             <div>
                 <div className="grid grid-cols-4 gap-4 mb-5">
-                    <Link to={"appointments"}>
+                    <Link to={`appointments/${patientCase?.patientCard.id}`}>
                         <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Appointments</div>
                     </Link>
                     <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Discusstion</div>

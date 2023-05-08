@@ -7,15 +7,11 @@ import { formatDateTime } from "../../utils/date.util";
 import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
 import { SelectDoctorModal, SelectDoctorModalType } from "../UI/select-doctor-modal";
-import { casesState } from "../../store/casesState";
 
 export const Appointments = () => {
     const sessionStore = useStore(sessionState);
-    const casesStore = useStore(casesState);
-    const { caseId } = useParams();
+    const { caseId, patientCardId } = useParams();
     const [caseAppointments, setAppointments] = useState<RowAppointment[]>();
-
-    const patientCardId = casesStore.paginatedCases?.cases.find(c => c.id == caseId)?.patientCard.id || "";
 
     const fetchAppointments = useCallback(async () => {
         if (caseId) {

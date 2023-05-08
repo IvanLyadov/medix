@@ -54,7 +54,7 @@ export const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/cases" element={<CasesList />} />
           <Route path="/cases/:caseId" element={<CaseDetail />} />
-          <Route path="/cases/:caseId/appointments" element={<Appointments />} />
+          <Route path="/cases/:caseId/appointments/:patientCardId" element={<Appointments />} />
           <Route path="/calendar/:doctorId/:caseId?/:patientCardId?" element={<Calendar />} />
           <Route path="/patientCards" element={<PatientCardsList />} />
           <Route path="/patientCards/new" element={<NewPatientCard />} />
