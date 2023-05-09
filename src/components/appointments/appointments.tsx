@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { RowAppointment } from "../../models/appointment/row-appointment";
 import { getRowAppointments } from "../../services/appointments.service";
-import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
 import { formatDateTime } from "../../utils/date.util";
 import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
+import { SelectDoctorModal, SelectDoctorModalType } from "../UI/select-doctor-modal";
 
 export const Appointments = () => {
     const sessionStore = useStore(sessionState);
-    const { caseId } = useParams();
+    const { caseId, patientCardId } = useParams();
     const [caseAppointments, setAppointments] = useState<RowAppointment[]>();
 
     const fetchAppointments = useCallback(async () => {
@@ -38,10 +38,7 @@ export const Appointments = () => {
                 </button>
                 <span className="text-center text-xl m-auto font-bold">Appointments</span>
                 <div className="mr-2">
-                    <button className="flex flex-row border-2 pl-2 pr-4 pt-1.5 pb-1.5 font-bold rounded-md bg-blue-4 hover:bg-blue-5">
-                        <Plus className="fill-green-1 h-5 w-5" />
-                        New Appointment
-                    </button>
+                    <SelectDoctorModal caseId={caseId!} patientCardId={patientCardId} modalType={SelectDoctorModalType.AddAppointment}/>
                 </div>
             </div>
             <div className="flex flex-col">

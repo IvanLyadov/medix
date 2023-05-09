@@ -1,58 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useStore } from "zustand";
 import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
+import { User } from "../../models/user/user";
+import { addCaseDoctor } from "../../services/cases.service";
+import { getDoctors } from "../../services/users.service";
+import { sessionState } from "../../store/appState";
 
-interface Doctors {
-  id: string;
-  title: string;
-  checked: boolean;
+export enum SelectDoctorModalType {
+  AddDoctor,
+  AddAppointment
 }
 
-const DoctorsList = [
-  {
-    id: '10',
-    title: 'Bonnie Green',
-    checked: true,
-  },
-  {
-    id: '11',
-    title: 'Jese Leos',
-    checked: false,
-  },
-  {
-    id: '12',
-    title: 'Michael Gough',
-    checked: true,
-  },
-  {
-    id: '13',
-    title: 'Robert Wall',
-    checked: false,
-  },
-  {
-    id: '14',
-    title: 'Joseph Mcfall',
-    checked: false,
-  },
-  {
-    id: '15',
-    title: 'Leslie Livingston',
-    checked: false,
-  },
-]
+export interface SelectDoctorModalProps {
+  caseId: string;
+  patientCardId?: string;
+  modalType: SelectDoctorModalType;
+}
 
-export const DropDown = () => {
+export const SelectDoctorModal = ({ caseId, patientCardId, modalType }: SelectDoctorModalProps) => {
+  const sessionStore = useStore(sessionState);
+  const navigate = useNavigate();
   const [modalStatus, setModalStatus] = useState<'hidden' | 'visible'>('hidden');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
-  const [dropDownList, setDropDownList] = useState<Doctors[]>([]);
+  const [doctors, setDoctors] = useState<User[]>([]);
+  const [search, setSearch] = useState<string>();
 
-
-  const searchHandler = (value: string) => {
-    console.log('search value', value)
-  }
+  const fetchDoctors = useCallback(async () => {
+    const doctors = await getDoctors(search);
+    setDoctors(doctors)
+  }, [search]);
 
   useEffect(() => {
-    setDropDownList(DoctorsList)
-  }, []);
+    if (sessionStore.loggedInUser) {
+      fetchDoctors();
+    }
+  }, [search, sessionStore.loggedInUser]);
+
+  const searchHandler = (value: string) => {
+    setSearch(value);
+  }
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checkboxValue = event.target.value;
@@ -66,16 +53,28 @@ export const DropDown = () => {
     }
   };
 
-  const confirmHandler = () => {
-    console.log('selectedCheckboxes', selectedCheckboxes);
+  const confirmHandler = async () => {
+    if (modalType == SelectDoctorModalType.AddDoctor){
+      await addCaseDoctor({ caseId: caseId, doctorId: selectedCheckboxes[0] });
+    }
+    if (modalType == SelectDoctorModalType.AddAppointment){
+      navigate(`/calendar/${selectedCheckboxes[0]}/${caseId}/${patientCardId}`)
+    }
     setModalStatus('hidden');
   }
 
   return (
     <>
-      <button onClick={() => setModalStatus('visible')} id="dropdownSearchButton" data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom" className="" type="button">
-        <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
-      </button>
+      {modalType == SelectDoctorModalType.AddDoctor &&
+        <button onClick={() => setModalStatus('visible')} id="dropdownSearchButton" data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom" className="" type="button">
+          <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
+        </button>}
+
+      {modalType == SelectDoctorModalType.AddAppointment &&
+        <button onClick={() => setModalStatus('visible')} className="flex flex-row border-2 pl-2 pr-4 pt-1.5 pb-1.5 font-bold rounded-md bg-blue-4 hover:bg-blue-5">
+          <Plus className="fill-green-1 h-5 w-5" />
+          New Appointment
+        </button>}
 
       <div id="defaultModal" aria-hidden="true" className={`${modalStatus} bg-[#0000007a] fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
         <div className="relative w-full max-w-2xl max-h-full  m-auto">
@@ -104,11 +103,11 @@ export const DropDown = () => {
 
             {/* List */}
             <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
-              {dropDownList.map(item => (
+              {doctors.map(item => (
                 <li key={item.id}>
                   <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                     <input value={item.id} checked={selectedCheckboxes.includes(item.id)} id={`checkbox-item-${item.id}`} onChange={handleCheckboxChange} type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                    <label htmlFor="checkbox-item-17" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{item.title}</label>
+                    <label htmlFor="checkbox-item-17" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{item.firstName} {item.lastName}</label>
                   </div>
                 </li>
               ))}

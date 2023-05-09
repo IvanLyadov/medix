@@ -97,13 +97,13 @@ export const AddUser = () => {
         setErrors(newErrors);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const errors = validate(formData);
         setErrors(errors);
         if (Object.keys(errors).length === 0) {
             console.log(formData)
 
-            registerUser(formData);
+            await registerUser(formData);
             goBack();
         }
     };
@@ -174,19 +174,6 @@ export const AddUser = () => {
 
                         <label>
                             <span className="font-bold">Phone number*</span>
-                            {errors.password && <span className="ml-2 text-red-500 text-xs">{errors.password}</span>}
-
-                        </label>
-                        <input
-                            type="text"
-                            name="password"
-                            className="mb-4 w-full pl-1 py-1"
-                            value={formData.password}
-                            onChange={handleChange}
-                        />
-
-                        <label>
-                            <span className="font-bold">Password*</span>
                             {errors.phoneNumber && <span className="ml-2 text-red-500 text-xs">{errors.phoneNumber}</span>}
 
                         </label>
@@ -195,6 +182,19 @@ export const AddUser = () => {
                             name="phoneNumber"
                             className="mb-4 w-full pl-1 py-1"
                             value={formData.phoneNumber}
+                            onChange={handleChange}
+                        />
+
+                        <label>
+                            <span className="font-bold">Password*</span>
+                            {errors.password && <span className="ml-2 text-red-500 text-xs">{errors.password}</span>}
+
+                        </label>
+                        <input
+                            type="text"
+                            name="password"
+                            className="mb-4 w-full pl-1 py-1"
+                            value={formData.password}
                             onChange={handleChange}
                         />
 
@@ -234,7 +234,7 @@ export const AddUser = () => {
                         >
 
                             {Object.keys(UserJobTitle).map((value) => (
-                                <option value={value}>{value}</option>
+                                <option key={value} value={value}>{value}</option>
                             ))}
 
                         </select>

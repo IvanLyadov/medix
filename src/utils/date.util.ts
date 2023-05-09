@@ -19,6 +19,6 @@ export const formatDate = (dateTime: string): string => {
 }
 
 export const formatDateToUtcString = (date: Date): string => {
-    const utcDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    const utcDate = new Date(date.toUTCString());
     return utcDate.toISOString();
 }
