@@ -61,7 +61,7 @@ export const Login = () => {
     };
 
     return (
-        <div className="flex flex-col h-full p-5">
+        <div className="flex flex-col h-full p-3">
             <div className="grid grid-cols-1 gap-4 mb-5 mt-auto mb-auto mx-auto border-2 bg-blue-4 border-[#92b1f7] rounded-lg p-5 w-full max-w-[420px]">
                 <div className="w-full">
                     <div>{isWrongCreds && <span className="ml-2 text-red-500 text-xs">Wrong credentials</span>}</div>

@@ -14,8 +14,8 @@ export const CaseDetail = () => {
     const { caseId } = useParams();
     const [patientCase, setPatientCase] = useState<FullCase | null>(null);
 
-    const fetchCase = useCallback(async() => {
-        if (caseId){
+    const fetchCase = useCallback(async () => {
+        if (caseId) {
             const fullCase = await getCase(caseId);
             setPatientCase(fullCase)
         }
@@ -30,7 +30,7 @@ export const CaseDetail = () => {
     }
 
     return (
-        <article className="flex flex-col h-full p-5">
+        <article className="flex flex-col h-full p-3">
             <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
                 <button onClick={goBack}>
                     <ArrowLeft className="h-7 w-7 ml-2" />
@@ -83,7 +83,7 @@ export const CaseDetail = () => {
             <div>
                 <span className="font-bold">Doctors:</span>
                 <span className="font-bold">
-                    <SelectDoctorModal caseId={caseId!} modalType={SelectDoctorModalType.AddDoctor}/>
+                    <SelectDoctorModal caseId={caseId!} modalType={SelectDoctorModalType.AddDoctor} />
                 </span>
                 <div className="grid grid-cols-3 gap-4 mb-5">
                     {patientCase && patientCase.doctors.map(d => {
@@ -97,7 +97,9 @@ export const CaseDetail = () => {
                     <Link to={`appointments/${patientCase?.patientCard.id}`}>
                         <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Appointments</div>
                     </Link>
-                    <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Discusstion</div>
+                    <Link to="chat">
+                        <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Discusstion</div>
+                    </Link>
                     <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Attachments</div>
                     <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Logs</div>
                 </div>

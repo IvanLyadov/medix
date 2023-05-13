@@ -1,5 +1,4 @@
 import { debounce } from 'lodash';
-import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
 import { ReactComponent as Search } from "../../assets/icons/search.svg";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow_right.svg";
@@ -14,7 +13,6 @@ import { Link } from "react-router-dom";
 import { useStore } from "zustand";
 import { casesState } from "../../store/casesState";
 import { getCases } from "../../services/cases.service";
-import moment from "moment";
 import { defaultLimit, defaultOffset } from "../../models/model-constants";
 import { sessionState } from '../../store/appState';
 import { formatDateTime } from '../../utils/date.util';
