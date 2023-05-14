@@ -7,7 +7,7 @@ import { NewPatientCard } from './components/patient-card/new-patient-card';
 import { PatientCardDetails } from './components/patient-card-details/patient-card-details';
 import { CaseDetail } from './components/case/case-detail';
 import { Calendar } from './components/calendar/calendar';
-import { AddUser } from './components/add-user/add-user';
+import { AddUser } from './components/user/add-user';
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import { NewCase } from './components/case/new-case';
@@ -22,6 +22,9 @@ import { sessionState } from './store/appState';
 import { getUser } from './services/users.service';
 import { Appointments } from './components/appointments/appointments';
 import { Chat } from './components/chat/chat';
+import { EditPatientCard } from './components/patient-card/edit-patient-card';
+import { UserDetails } from './components/user/user-detail';
+import { EditUser } from './components/user/edit-user';
 
 export const App = () => {
   const sessionStore = useStore(sessionState);
@@ -60,10 +63,13 @@ export const App = () => {
           <Route path="/cases/:caseId/chat" element={<Chat />} />
           <Route path="/patientCards" element={<PatientCardsList />} />
           <Route path="/patientCards/new" element={<NewPatientCard />} />
+          <Route path="/patientCards/edit/:patientId" element={<EditPatientCard />} />
           <Route path="/patient-cards-details/:patientCardId" element={<PatientCardDetails />} />
           <Route path="/new-case/:patientCardId" element={<NewCase />} />
           <Route path="/users" element={<UsersList />} />
           <Route path="/users/new" element={<AddUser />} />
+          <Route path="/users-details/:userId" element={<UserDetails />} />
+          <Route path="/users/edit/:userId" element={<EditUser />} />
           <Route path="/calendar" element={<Calendar />} />
         </Routes>
 
