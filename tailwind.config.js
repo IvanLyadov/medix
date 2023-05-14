@@ -13,6 +13,9 @@ module.exports = {
         "green-1": "#49ab3a"
       },
     },
+    maxWidth: {
+      "85%": "85%"
+    }
   },
   plugins: [],
 }

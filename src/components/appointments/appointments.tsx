@@ -31,7 +31,7 @@ export const Appointments = () => {
     }
 
     return (
-        <article className="flex flex-col h-full p-5">
+        <article className="flex flex-col h-full p-3">
             <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
                 <button onClick={goBack}>
                     <ArrowLeft className="h-7 w-7 ml-2" />
