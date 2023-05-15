@@ -35,3 +35,9 @@ export const getPatientCardDetail = async (patientId: string): Promise<PatientCa
     const { data } = await axios.get(`${patientCardsUrl}/${patientId}`);
     return data;
 }
+
+export const editPatientCard = async (patientCardData: PatientCardInfo): Promise<any> => {
+    console.log(patientCardData)
+    const { data } = await axios.put(patientCardsUrl, patientCardData);
+    return data;
+}

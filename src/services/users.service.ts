@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Params } from "react-router-dom";
+import { EditUser } from "../models/user/edit-user";
 import { PaginatedUsers } from "../models/user/paginated-users";
 import { User } from "../models/user/user";
 import { UsersFilter } from "../models/user/users-filter";
@@ -34,5 +35,10 @@ export const getDoctors = async (search?: string): Promise<User[]> => {
         }
 
     const { data } = await axios.get<User[]>(`${usersUrl}/doctors`, {params: params});
+    return data;
+}
+
+export const editUser = async (user: EditUser): Promise<any> => {
+    const { data } = await axios.put<User>(`${usersUrl}`, user);
     return data;
 }

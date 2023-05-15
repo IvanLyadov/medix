@@ -4,7 +4,7 @@ import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { Menu } from './components/menu/menu';
 import { NewPatientCard } from './components/patient-card/new-patient-card';
-import { PatientCardDetails } from './components/patient-card-details/patient-card-details';
+import { PatientCardDetails } from './components/patient-card/patient-card-details';
 import { CaseDetail } from './components/case/case-detail';
 import { Calendar } from './components/calendar/calendar';
 import { AddUser } from './components/user/add-user';

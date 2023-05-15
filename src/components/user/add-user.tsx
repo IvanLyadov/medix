@@ -101,8 +101,6 @@ export const AddUser = () => {
         const errors = validate(formData);
         setErrors(errors);
         if (Object.keys(errors).length === 0) {
-            console.log(formData)
-
             await registerUser(formData);
             goBack();
         }

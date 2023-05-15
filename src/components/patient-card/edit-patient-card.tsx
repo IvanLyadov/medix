@@ -2,10 +2,11 @@ import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { createPatientCard, getPatientCardDetail } from "../../services/patient-cards.service";
+import { editPatientCard, getPatientCardDetail } from "../../services/patient-cards.service";
 import { useParams } from "react-router-dom";
 
 interface FormData {
+    id: string;
     firstName: string;
     lastName: string;
     middleName?: string;
@@ -31,6 +32,7 @@ export const EditPatientCard = () => {
     const [startDate, setStartDate] = useState<Date>();
 
     const [formData, setFormData] = useState<FormData>({
+        id: '',
         firstName: '',
         lastName: '',
         middleName: undefined,
@@ -45,7 +47,15 @@ export const EditPatientCard = () => {
         if (patientId) {
             getPatientCardDetail(patientId).then((response) => {
                 setStartDate(new Date(response.dateOfBirth))
-                setFormData(response);
+                setFormData({
+                    id: response.id,
+                    firstName: response.firstName,
+                    lastName: response.lastName,
+                    middleName: response.middleName,
+                    dateOfBirth: response.dateOfBirth,
+                    phoneNumber: response.phoneNumber,
+                    email: response.email
+                });
             });
         }
 
@@ -91,7 +101,7 @@ export const EditPatientCard = () => {
         const errors = validate(formData);
         setErrors(errors);
         if (Object.keys(errors).length === 0) {
-            createPatientCard(formData);
+            editPatientCard(formData);
             goBack();
         }
     };

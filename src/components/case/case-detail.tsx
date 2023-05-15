@@ -55,7 +55,7 @@ export const CaseDetail = () => {
     const addNote = async (note: string) => {
         const patientCaseId = patientCase?.id;
         if (patientCaseId) {
-            await caseNoteEdit({ caseId: patientCaseId, notes: note, diagnosis: patientCase?.diagnosis }).then(() => {
+            await caseNoteEdit({ caseId: patientCaseId, notes: note }).then(() => {
                 fetchCase();
             });
         }
@@ -64,7 +64,7 @@ export const CaseDetail = () => {
     const editDiagnosis = async (diagnosis: string) => {
         const patientCaseId = patientCase?.id;
         if (patientCaseId) {
-            await caseNoteEdit({ caseId: patientCaseId, notes: patientCase?.notes, diagnosis: diagnosis }).then(() => {
+            await caseNoteEdit({ caseId: patientCaseId, diagnosis: diagnosis }).then(() => {
                 fetchCase();
             });
         }
@@ -119,15 +119,13 @@ export const CaseDetail = () => {
                 <div className="flex flex-col">
                     <span className="flex flex-row">
                         <span className="font-bold">Diagnosis:</span>
-                        {patientCase?.diagnosis && (
-                            <NodeModal
+                        <NodeModal
                                 caseId={caseId!}
                                 onConfirm={editDiagnosis}
                                 title="Edit Diagnosis"
-                                initialText={patientCase.diagnosis}
+                                initialText={patientCase?.diagnosis}
                                 icon={<Pencil className="w-[18px] h-[18px] ml-1 fill-green-1 h-5 w-5 cursor-pointer fill-red-400" />}
                             />
-                        )}
 
                     </span>
                     <span>{patientCase?.diagnosis}</span>
@@ -137,9 +135,9 @@ export const CaseDetail = () => {
             <div className="mb-5">
                 <span className="flex flex-row">
                     <span className="font-bold">Notes:</span>
-                    {patientCase?.notes && (<NodeModal caseId={caseId!} onConfirm={addNote} title="Add note" initialText={patientCase?.notes} />)}
+                    <NodeModal caseId={caseId!} onConfirm={addNote} title="Add note" />
                 </span>
-                <p>
+                <p className="whitespace-pre-wrap">
                     {patientCase?.notes}
                 </p>
             </div>

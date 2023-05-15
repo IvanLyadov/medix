@@ -6,6 +6,7 @@ import { ACCESS_TOKEN_KEY, getToken, setTokenForHttpClient, USER_ID_KEY } from "
 import { getUser } from "../../services/users.service";
 import { sessionState } from "../../store/appState";
 import { useNavigate } from 'react-router-dom';
+import { UserRole } from "../../models/user/user-role";
 
 export const Login = () => {
     const sessionStore = useStore(sessionState);
@@ -55,7 +56,20 @@ export const Login = () => {
                 setTokenForHttpClient(token.accessToken);
                 const user = await getUser(token.userId);
                 sessionStore.updateUser(user);
-                navigate("/cases");
+                switch (user.role){
+                    case UserRole.UserManager:
+                        navigate("/users");
+                        break;
+                    case UserRole.Doctor:
+                        navigate("/cases");
+                        break;
+                    case UserRole.Administrator:
+                        navigate("/cases");
+                        break;
+                    case UserRole.Doctor:
+                        navigate("/cases");
+                        break;
+                }
             }
         }
     };

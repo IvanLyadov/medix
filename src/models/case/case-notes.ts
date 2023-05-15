@@ -1,6 +1,6 @@
 
 export interface CaseNote {
     caseId: string;
-    diagnosis?: string | null;
+    diagnosis?: string;
     notes?: string;
 }

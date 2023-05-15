@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { UserRole } from "../../models/user/user-role";
 import { UserJobTitle } from "../../models/user/user-job-title";
-import { registerUser } from "../../services/auth.service";
-import { getUser } from "../../services/users.service";
+import { editUser, getUser } from "../../services/users.service";
 import { useParams } from "react-router-dom";
 
 interface FormData {
+    id: string;
     firstName: string;
     lastName: string;
     middleName?: string;
@@ -15,7 +15,7 @@ interface FormData {
     jobTitle: UserJobTitle;
     role?: UserRole;
     email: string;
-    password?: string;
+    isActive: boolean;
 }
 
 interface FormErrors extends Omit<FormData, 'jobTitle' | 'role'> {
@@ -26,6 +26,7 @@ interface FormErrors extends Omit<FormData, 'jobTitle' | 'role'> {
 export const EditUser = () => {
     const { userId } = useParams();
     const [formData, setFormData] = useState<FormData>({
+        id: '',
         firstName: '',
         lastName: '',
         middleName: '',
@@ -33,7 +34,7 @@ export const EditUser = () => {
         jobTitle: UserJobTitle.Administrator,
         role: UserRole.Administrator,
         email: '',
-        password: '',
+        isActive: false,
     });
 
     const [errors, setErrors] = useState<Partial<FormErrors>>({});
@@ -59,7 +60,17 @@ export const EditUser = () => {
     useEffect(() => {
         if (userId) {
             getUser(userId).then((response) => {
-                setFormData(response);
+                setFormData({
+                    id: response.id,
+                    firstName: response.firstName,
+                    lastName: response.lastName,
+                    middleName: response.middleName,
+                    phoneNumber: response.phoneNumber,
+                    jobTitle: response.jobTitle,
+                    role: response.role,
+                    email: response.email,
+                    isActive: response.isActive
+                });
             });
         }
 
@@ -109,7 +120,7 @@ export const EditUser = () => {
         const errors = validate(formData);
         setErrors(errors);
         if (Object.keys(errors).length === 0) {
-            await registerUser(formData);
+            await editUser(formData);
             goBack();
         }
     };
@@ -188,19 +199,6 @@ export const EditUser = () => {
                             name="phoneNumber"
                             className="mb-4 w-full pl-1 py-1"
                             value={formData.phoneNumber}
-                            onChange={handleChange}
-                        />
-
-                        <label>
-                            <span className="font-bold">Password*</span>
-                            {errors.password && <span className="ml-2 text-red-500 text-xs">{errors.password}</span>}
-
-                        </label>
-                        <input
-                            type="text"
-                            name="password"
-                            className="mb-4 w-full pl-1 py-1"
-                            value={formData.password}
                             onChange={handleChange}
                         />
 
