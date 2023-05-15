@@ -28,7 +28,7 @@ export const UsersList = () => {
     }, [usersStore]);
 
     useEffect(() => {
-        if (sessionStore.loggedInUser){
+        if (sessionStore.loggedInUser) {
             fetchUsers();
         }
     }, [usersStore.usersFilter, sessionStore.loggedInUser]);
@@ -169,7 +169,7 @@ export const UsersList = () => {
                             <div className="pt-1 pl-2 truncate">{u.role}</div>
                             <div className="pt-1 pl-2 truncate">{u.jobTitle}</div>
                             <div className="pt-1 pl-2 truncate">{u.phoneNumber}</div>
-                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={"/"}>Details</Link>
+                            <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={`/users-details/${u.id}`}>Details</Link>
                         </div>
                     )
                 })}

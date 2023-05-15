@@ -5,6 +5,8 @@ import { PaginatedCases } from "../models/case/paginated-cases";
 import { CreateCase } from "../models/case/case";
 import { CaseDoctorParams } from "../models/case/case-doctor-params";
 import { FullCase } from "../models/case/full-case";
+import { CaseStatusChange } from "../models/case/case-status-change";
+import { CaseNote } from "../models/case/case-notes";
 
 const casesUrl = `${process.env.REACT_APP_API_URL}/api/cases`;
 
@@ -45,5 +47,15 @@ export const addCaseDoctor = async (caseDoctorParams: CaseDoctorParams): Promise
 
 export const removeCaseDoctor = async (caseDoctorParams: CaseDoctorParams): Promise<any> => {
     const { data } = await axios.put(`${casesUrl}/remove-doctor`, caseDoctorParams);
+    return data;
+}
+
+export const closeCase = async (params: CaseStatusChange): Promise<any> => {
+    const { data } = await axios.put(`${casesUrl}/change-status`, params);
+    return data;
+}
+
+export const caseNoteEdit = async (params: CaseNote): Promise<any> => {
+    const { data } = await axios.put(`${casesUrl}/edit`, params);
     return data;
 }

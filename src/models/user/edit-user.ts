@@ -1,7 +1,7 @@
 import { UserJobTitle } from "./user-job-title";
 import { UserRole } from "./user-role";
 
-export interface User {
+export interface EditUser {
     id: string;
     firstName: string;
     lastName: string;
@@ -11,6 +11,4 @@ export interface User {
     role?: UserRole;
     jobTitle: UserJobTitle;
     isActive: boolean;
-    createdAtUtc: string;
-    updatedAtUtc?: string;
 }

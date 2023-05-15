@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
-import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
+import { ReactComponent as Close } from "../../assets/icons/close.svg";
+import { ReactComponent as Trash } from "../../assets/icons/trash.svg";
+import { ReactComponent as Pencil } from "../../assets/icons/pencil-outline.svg";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 import { SelectDoctorModal, SelectDoctorModalType } from "../UI/select-doctor-modal";
 import { FullCase } from "../../models/case/full-case";
-import { getCase } from "../../services/cases.service";
+import { caseNoteEdit, closeCase, getCase, removeCaseDoctor } from "../../services/cases.service";
 import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
+import { NodeModal } from "../UI/text-modal";
 
 export const CaseDetail = () => {
     const sessionStore = useStore(sessionState);
@@ -28,6 +31,45 @@ export const CaseDetail = () => {
     const goBack = () => {
         window.history.back();
     }
+
+    const changeStatus = async () => {
+        const patientCaseId = patientCase?.id;
+        const patientCaseStatus = patientCase?.closedAtUtc !== null;
+
+        if (patientCaseId) {
+            await closeCase({ caseId: patientCaseId, isActive: patientCaseStatus }).then(() => {
+                fetchCase();
+            });
+        }
+    }
+
+    const removeDoctor = async (doctorId: string) => {
+        const patientCaseId = patientCase?.id;
+        if (patientCaseId) {
+            await removeCaseDoctor({ caseId: patientCaseId, doctorId: doctorId }).then(() => {
+                fetchCase();
+            });
+        }
+    }
+
+    const addNote = async (note: string) => {
+        const patientCaseId = patientCase?.id;
+        if (patientCaseId) {
+            await caseNoteEdit({ caseId: patientCaseId, notes: note }).then(() => {
+                fetchCase();
+            });
+        }
+    }
+
+    const editDiagnosis = async (diagnosis: string) => {
+        const patientCaseId = patientCase?.id;
+        if (patientCaseId) {
+            await caseNoteEdit({ caseId: patientCaseId, diagnosis: diagnosis }).then(() => {
+                fetchCase();
+            });
+        }
+    }
+
 
     return (
         <article className="flex flex-col h-full p-3">
@@ -53,6 +95,19 @@ export const CaseDetail = () => {
                 <div className="flex flex-col">
                     <span className="font-bold">Case Status:</span>
                     <span>{patientCase?.closedAtUtc ? "Closed" : "Active"}</span>
+                    {!patientCase?.closedAtUtc ? (
+                        <button onClick={changeStatus} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
+                            <span>Close Case</span>
+                            <Close className="fill-red-400 w-[20px]" />
+                        </button>
+                    ) :
+                        (
+                            <button onClick={changeStatus} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
+                                <span>Open Case</span>
+                            </button>
+                        )
+                    }
+
                 </div>
             </div>
 
@@ -64,7 +119,14 @@ export const CaseDetail = () => {
                 <div className="flex flex-col">
                     <span className="flex flex-row">
                         <span className="font-bold">Diagnosis:</span>
-                        <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
+                        <NodeModal
+                                caseId={caseId!}
+                                onConfirm={editDiagnosis}
+                                title="Edit Diagnosis"
+                                initialText={patientCase?.diagnosis}
+                                icon={<Pencil className="w-[18px] h-[18px] ml-1 fill-green-1 h-5 w-5 cursor-pointer fill-red-400" />}
+                            />
+
                     </span>
                     <span>{patientCase?.diagnosis}</span>
                 </div>
@@ -73,9 +135,9 @@ export const CaseDetail = () => {
             <div className="mb-5">
                 <span className="flex flex-row">
                     <span className="font-bold">Notes:</span>
-                    <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
+                    <NodeModal caseId={caseId!} onConfirm={addNote} title="Add note" />
                 </span>
-                <p>
+                <p className="whitespace-pre-wrap">
                     {patientCase?.notes}
                 </p>
             </div>
@@ -83,11 +145,17 @@ export const CaseDetail = () => {
             <div>
                 <span className="font-bold">Doctors:</span>
                 <span className="font-bold">
-                    <SelectDoctorModal caseId={caseId!} modalType={SelectDoctorModalType.AddDoctor} />
+                    <SelectDoctorModal caseId={caseId!} onConfirm={() => fetchCase()} modalType={SelectDoctorModalType.AddDoctor} />
                 </span>
                 <div className="grid grid-cols-3 gap-4 mb-5">
                     {patientCase && patientCase.doctors.map(d => {
-                        return <div key={d.id} className="font-bold bg-[#eee] p-1 mb-1">{d.firstName} {d.lastName} {d.jobTitle}</div>
+                        return <div key={d.id} className="font-bold bg-[#eee] p-1 mb-1 flex flex-row items-center justify-between">
+                            <span> {d.firstName} {d.lastName} {d.jobTitle}</span>
+
+                            <button onClick={() => removeDoctor(d.id)} className="ml-auto">
+                                <Trash className="w-[20px] h-[20px] fill-red-400" />
+                            </button>
+                        </div>
                     })}
                 </div>
             </div>

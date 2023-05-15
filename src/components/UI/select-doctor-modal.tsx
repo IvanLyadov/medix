@@ -16,9 +16,10 @@ export interface SelectDoctorModalProps {
   caseId: string;
   patientCardId?: string;
   modalType: SelectDoctorModalType;
+  onConfirm?: () => void;
 }
 
-export const SelectDoctorModal = ({ caseId, patientCardId, modalType }: SelectDoctorModalProps) => {
+export const SelectDoctorModal = ({ caseId, patientCardId, modalType, onConfirm }: SelectDoctorModalProps) => {
   const sessionStore = useStore(sessionState);
   const navigate = useNavigate();
   const [modalStatus, setModalStatus] = useState<'hidden' | 'visible'>('hidden');
@@ -46,6 +47,7 @@ export const SelectDoctorModal = ({ caseId, patientCardId, modalType }: SelectDo
     const isChecked = event.target.checked;
     if (isChecked) {
       setSelectedCheckboxes([...selectedCheckboxes, checkboxValue]);
+
     } else {
       setSelectedCheckboxes(
         selectedCheckboxes.filter((value) => value !== checkboxValue)
@@ -54,10 +56,14 @@ export const SelectDoctorModal = ({ caseId, patientCardId, modalType }: SelectDo
   };
 
   const confirmHandler = async () => {
-    if (modalType == SelectDoctorModalType.AddDoctor){
-      await addCaseDoctor({ caseId: caseId, doctorId: selectedCheckboxes[0] });
+    if (modalType == SelectDoctorModalType.AddDoctor) {
+      await addCaseDoctor({ caseId: caseId, doctorId: selectedCheckboxes[0] }).then(() => {
+        if (onConfirm) {
+          onConfirm();
+        }
+      });
     }
-    if (modalType == SelectDoctorModalType.AddAppointment){
+    if (modalType == SelectDoctorModalType.AddAppointment) {
       navigate(`/calendar/${selectedCheckboxes[0]}/${caseId}/${patientCardId}`)
     }
     setModalStatus('hidden');
@@ -106,7 +112,7 @@ export const SelectDoctorModal = ({ caseId, patientCardId, modalType }: SelectDo
               {doctors.map(item => (
                 <li key={item.id}>
                   <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input value={item.id} checked={selectedCheckboxes.includes(item.id)} id={`checkbox-item-${item.id}`} onChange={handleCheckboxChange} type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                    <input disabled={selectedCheckboxes.length !== 0 && !selectedCheckboxes.includes(item.id)} value={item.id} checked={selectedCheckboxes.includes(item.id)} id={`checkbox-item-${item.id}`} onChange={handleCheckboxChange} type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                     <label htmlFor="checkbox-item-17" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{item.firstName} {item.lastName}</label>
                   </div>
                 </li>
