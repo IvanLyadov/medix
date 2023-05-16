@@ -7,19 +7,31 @@ import "./menu.css";
 export const Menu = () => {
     const sessionStore = useStore(sessionState);
 
-    const canViewSchedule = sessionStore.loggedInUser?.role === UserRole.Doctor || sessionStore.loggedInUser?.role === UserRole.SuperUser
+    const canViewSchedule = sessionStore.loggedInUser?.role === UserRole.Doctor
+    || sessionStore.loggedInUser?.role === UserRole.SuperUser;
+
+    const canViewCases = sessionStore.loggedInUser?.role === UserRole.Doctor
+    || sessionStore.loggedInUser?.role === UserRole.SuperUser
+    || sessionStore.loggedInUser?.role === UserRole.Administrator;
+
+    const canViewPatientCards = sessionStore.loggedInUser?.role === UserRole.Doctor
+    || sessionStore.loggedInUser?.role === UserRole.SuperUser
+    || sessionStore.loggedInUser?.role === UserRole.Administrator;
+
+    const canViewUsers = sessionStore.loggedInUser?.role === UserRole.UserManager
+    || sessionStore.loggedInUser?.role === UserRole.SuperUser;
 
     return (
         <div className="menu-container bg-blue-2 h-full px-3">
-            <div className="cursor-pointer">
+            {canViewCases && <div className="cursor-pointer">
                 <Link to="/cases">Cases</Link>
-            </div>
-            <div className="cursor-pointer">
+            </div>}
+            {canViewPatientCards && <div className="cursor-pointer">
                 <Link to="/patientCards">Patient Cards</Link>
-            </div>
-            <div className="cursor-pointer">
+            </div>}
+            {canViewUsers && <div className="cursor-pointer">
                 <Link to="/users">Users</Link>
-            </div>
+            </div>}
             {canViewSchedule && <div className="cursor-pointer">
                 <Link to={`/calendar/${sessionStore.loggedInUser?.id}`}>Schedule</Link>
             </div>}

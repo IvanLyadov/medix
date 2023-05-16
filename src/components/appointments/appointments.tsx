@@ -7,11 +7,15 @@ import { formatDateTime } from "../../utils/date.util";
 import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
 import { SelectDoctorModal, SelectDoctorModalType } from "../UI/select-doctor-modal";
+import { UserRole } from "../../models/user/user-role";
 
 export const Appointments = () => {
     const sessionStore = useStore(sessionState);
-    const { caseId, patientCardId } = useParams();
+    const { caseId, patientCardId, isActive } = useParams();
     const [caseAppointments, setAppointments] = useState<RowAppointment[]>();
+
+    const canAddAppointment = sessionStore.loggedInUser?.role === UserRole.Administrator
+        || sessionStore.loggedInUser?.role === UserRole.SuperUser;
 
     const fetchAppointments = useCallback(async () => {
         if (caseId) {
@@ -37,9 +41,9 @@ export const Appointments = () => {
                     <ArrowLeft className="h-7 w-7 ml-2" />
                 </button>
                 <span className="text-center text-xl m-auto font-bold">Appointments</span>
-                <div className="mr-2">
+                {canAddAppointment && isActive === "true" && <div className="mr-2">
                     <SelectDoctorModal caseId={caseId!} patientCardId={patientCardId} modalType={SelectDoctorModalType.AddAppointment}/>
-                </div>
+                </div>}
             </div>
             <div className="flex flex-col">
                 {caseAppointments && caseAppointments?.map(a => {

@@ -10,7 +10,7 @@ import { formatDateTime } from "../../utils/date.util";
 
 export const Chat = () => {
     const sessionStore = useStore(sessionState);
-    const { caseId } = useParams();
+    const { caseId, isActive } = useParams();
     const [caseMessages, setMessages] = useState<ChatMessage[]>();
     const [inputValue, setInputValue] = useState<string>("");
 
@@ -104,11 +104,12 @@ export const Chat = () => {
                 type="text"
                 className="ml-2 w-5/6 rounded-md"
                 value={inputValue}
+                disabled={isActive !== "true"}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}/>
                 <button
                 className="border-2 pl-4 pr-4 pt-1 pb-1 ml-3 font-bold rounded-md bg-blue-4 hover:bg-blue-5"
-                disabled={inputValue.trim().length === 0}
+                disabled={inputValue.trim().length === 0 || isActive !=="true"}
                 onClick={handleSendMessage}>
                     Send
                 </button>
