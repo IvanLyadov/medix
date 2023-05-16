@@ -16,10 +16,14 @@ import { patientCardsState } from '../../store/patientCardsState';
 import { PatientCardsSortColumn } from '../../models/patient-card/patient-cards-sort-column';
 import { sessionState } from '../../store/appState';
 import { formatDateTime, formatDate } from '../../utils/date.util';
+import { UserRole } from '../../models/user/user-role';
 
 export const PatientCardsList = () => {
     const sessionStore = useStore(sessionState);
     const patientCardsStore = useStore(patientCardsState);
+
+    const canAddNewPatient = sessionStore.loggedInUser?.role === UserRole.Administrator
+        || sessionStore.loggedInUser?.role === UserRole.SuperUser;
 
     const fetchPatientCards = useCallback(async () => {
         const paginatedPatientCards = await getPatientCards(patientCardsStore.patientCardsFilter);
@@ -97,12 +101,12 @@ export const PatientCardsList = () => {
             <div className="flex justify-between py-2 pl-4">
                 <div className="flex flex-row">
                     <div className="text-3xl mr-4">Patient Cards</div>
-                    <Link to={"./new"}>
+                    {canAddNewPatient && <Link to={"./new"}>
                         <button className="flex flex-row border-2 pl-2 pr-4 pt-1.5 pb-1.5 font-bold rounded-md bg-blue-4 hover:bg-blue-5">
                             <Plus className="fill-green-1 h-5 w-5" />
                             New Patient
                         </button>
-                    </Link>
+                    </Link>}
                 </div>
                 <div className="flex flex-row">
                     <Search className="mt-2 mr-3 h-5 w-5" />

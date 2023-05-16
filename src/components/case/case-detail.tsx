@@ -11,11 +11,21 @@ import { caseNoteEdit, closeCase, getCase, removeCaseDoctor } from "../../servic
 import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
 import { NodeModal } from "../UI/text-modal";
+import { UserRole } from "../../models/user/user-role";
 
 export const CaseDetail = () => {
     const sessionStore = useStore(sessionState);
     const { caseId } = useParams();
     const [patientCase, setPatientCase] = useState<FullCase>();
+
+    const canManageCase = sessionStore.loggedInUser?.role === UserRole.Administrator
+        || sessionStore.loggedInUser?.role === UserRole.SuperUser;
+
+    const canEditCase = sessionStore.loggedInUser?.role === UserRole.Doctor
+        || sessionStore.loggedInUser?.role === UserRole.SuperUser;
+
+    const canViewDetails = sessionStore.loggedInUser?.role === UserRole.Doctor
+        || sessionStore.loggedInUser?.role === UserRole.SuperUser;
 
     const fetchCase = useCallback(async () => {
         if (caseId) {
@@ -96,19 +106,20 @@ export const CaseDetail = () => {
                     <div className="flex flex-col">
                         <span className="font-bold">Case Status:</span>
                         <span>{patientCase?.closedAtUtc ? "Closed" : "Active"}</span>
-                        {!patientCase?.closedAtUtc ? (
-                            <button onClick={changeStatus} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
-                                <span>Close Case</span>
-                                <Close className="fill-red-400 w-[20px]" />
-                            </button>
-                        ) :
-                            (
-                                <button onClick={changeStatus} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
-                                    <span>Open Case</span>
+                        {canManageCase && <div>
+                            {!patientCase?.closedAtUtc ? (
+                                <button onClick={changeStatus} className="flex flex-row items-center w-32 justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
+                                    <span>Close Case</span>
+                                    <Close className="fill-red-400 w-[20px]" />
                                 </button>
-                            )
-                        }
-
+                            ) :
+                                (
+                                    <button onClick={changeStatus} className="flex flex-row items-center w-32 justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
+                                        <span>Open Case</span>
+                                    </button>
+                                )
+                            }
+                        </div>}
                     </div>
                 </div>
 
@@ -120,12 +131,12 @@ export const CaseDetail = () => {
                     <div className="flex flex-col">
                         <span className="flex flex-row">
                             <span className="font-bold">Diagnosis:</span>
-                            <NodeModal
+                            {canEditCase && <NodeModal
                                 onConfirm={editDiagnosis}
                                 title="Edit Diagnosis"
                                 initialText={patientCase?.diagnosis}
                                 icon={<Pencil className="w-[18px] h-[18px] ml-1 fill-green-1 h-5 w-5 cursor-pointer fill-red-400" />}
-                            />
+                            />}
 
                         </span>
                         <span>{patientCase?.diagnosis}</span>
@@ -135,7 +146,7 @@ export const CaseDetail = () => {
                 <div className="mb-5">
                     <span className="flex flex-row">
                         <span className="font-bold">Notes:</span>
-                        <NodeModal onConfirm={addNote} title="Add note" />
+                        {canEditCase && <NodeModal onConfirm={addNote} title="Add note" />}
                     </span>
                     <p className="whitespace-pre-wrap">
                         {patientCase?.notes}
@@ -144,17 +155,17 @@ export const CaseDetail = () => {
 
                 <div>
                     <span className="font-bold">Doctors:</span>
-                    <span className="font-bold">
+                    {canManageCase && <span className="font-bold">
                         <SelectDoctorModal caseId={caseId!} onConfirm={() => fetchCase()} modalType={SelectDoctorModalType.AddDoctor} />
-                    </span>
+                    </span>}
                     <div className="grid grid-cols-3 gap-4 mb-5">
                         {patientCase && patientCase.doctors.map(d => {
                             return <div key={d.id} className="font-bold bg-[#eee] p-1 mb-1 flex flex-row items-center justify-between rounded-sm">
                                 <span> {d.firstName} {d.lastName} {d.jobTitle}</span>
 
-                                <button onClick={() => removeDoctor(d.id)} className="ml-auto">
+                                {canManageCase && <button onClick={() => removeDoctor(d.id)} className="ml-auto">
                                     <Trash className="w-[20px] h-[20px] fill-red-400" />
-                                </button>
+                                </button>}
                             </div>
                         })}
                     </div>
@@ -164,14 +175,14 @@ export const CaseDetail = () => {
 
             <div>
                 <div className="grid grid-cols-4 gap-4">
-                    <Link to={`appointments/${patientCase?.patientCard.id}`}>
+                    <Link to={`appointments/${patientCase?.patientCard.id}/${!patientCase?.closedAtUtc}`}>
                         <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Appointments</div>
                     </Link>
-                    <Link to="chat">
+                    {canViewDetails && <Link to={`chat/${!patientCase?.closedAtUtc}`}>
                         <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Discusstion</div>
-                    </Link>
-                    <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Attachments</div>
-                    <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Logs</div>
+                    </Link>}
+                    {canViewDetails && <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Attachments</div>}
+                    {canViewDetails && <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Logs</div>}
                 </div>
             </div>
 

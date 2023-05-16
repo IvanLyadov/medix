@@ -61,6 +61,7 @@ export const SelectDoctorModal = ({ caseId, patientCardId, modalType, onConfirm 
         if (onConfirm) {
           onConfirm();
         }
+        setSelectedCheckboxes([]);
       });
     }
     if (modalType == SelectDoctorModalType.AddAppointment) {

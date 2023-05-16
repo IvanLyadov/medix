@@ -58,9 +58,9 @@ export const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/cases" element={<CasesList />} />
           <Route path="/cases/:caseId" element={<CaseDetail />} />
-          <Route path="/cases/:caseId/appointments/:patientCardId" element={<Appointments />} />
+          <Route path="/cases/:caseId/appointments/:patientCardId/:isActive" element={<Appointments />} />
           <Route path="/calendar/:doctorId/:caseId?/:patientCardId?" element={<Calendar />} />
-          <Route path="/cases/:caseId/chat" element={<Chat />} />
+          <Route path="/cases/:caseId/chat/:isActive" element={<Chat />} />
           <Route path="/patientCards" element={<PatientCardsList />} />
           <Route path="/patientCards/new" element={<NewPatientCard />} />
           <Route path="/patientCards/edit/:patientId" element={<EditPatientCard />} />
