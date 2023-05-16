@@ -35,6 +35,7 @@ export const Chat = () => {
         if (caseId){
             await addCaseChatMessage({caseId: caseId, message: inputValue});
             setInputValue("");
+            fethcMessages();
         }
     };
 

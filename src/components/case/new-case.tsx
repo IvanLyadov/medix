@@ -1,10 +1,11 @@
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createCase } from "../../services/cases.service";
 
 export const NewCase = () => {
+    const navigate = useNavigate();
     const [primaryComplaint, setPrimaryComplaint] = useState('');
     const [error, setError] = useState<string | null>('');
 
@@ -22,7 +23,7 @@ export const NewCase = () => {
                 patientCardId,
             }
             createCase(formData);
-            goBack();
+            navigate("/cases");
         }
     }
 
@@ -53,7 +54,7 @@ export const NewCase = () => {
                         <span className="font-bold">Primary Complaint*</span>
                         {error && <span className="ml-2 text-red-500 text-xs">{error}</span>}
                     </label>
-                    <textarea value={primaryComplaint} onChange={(event) => changeHandler(event.target.value)} name="primaryComplaint" className="w-full p-2"></textarea>
+                    <textarea value={primaryComplaint} onChange={(event) => changeHandler(event.target.value)} name="primaryComplaint" className="w-full p-2 rounded-md"></textarea>
                 </div>
             </div>
 
