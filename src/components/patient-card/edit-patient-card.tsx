@@ -118,7 +118,7 @@ export const EditPatientCard = () => {
                 </button>
                 <span className="text-center text-xl m-auto font-bold">Edit Patient</span>
             </div>
-            <div className="grid grid-cols- mb-5">
+            <div className="flex-1 overflow-auto min-h-0">
                 <div className="max-w-[600px]">
                     <form>
 
@@ -130,7 +130,7 @@ export const EditPatientCard = () => {
                         <input
                             type="text"
                             name="firstName"
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             value={formData.firstName}
                             onChange={handleChange}
                         />
@@ -143,7 +143,7 @@ export const EditPatientCard = () => {
                         <input
                             type="text"
                             name="lastName"
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             value={formData.lastName}
                             onChange={handleChange}
                         />
@@ -152,7 +152,7 @@ export const EditPatientCard = () => {
                         <input
                             type="text"
                             name="middleName"
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             value={formData.middleName}
                             onChange={handleChange}
                         />
@@ -168,7 +168,7 @@ export const EditPatientCard = () => {
                             dateFormat="dd-MM-yyyy" name="dateOfBirth"
                             scrollableYearDropdown
                             showYearDropdown
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             showMonthDropdown
                         />
 
@@ -181,7 +181,7 @@ export const EditPatientCard = () => {
                         <input
                             type="text"
                             name="phoneNumber"
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             value={formData.phoneNumber}
                             onChange={handleChange}
                         />
@@ -194,7 +194,7 @@ export const EditPatientCard = () => {
                         <input
                             type="text"
                             name="email"
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             value={formData.email}
                             onChange={handleChange}
                         />
@@ -204,8 +204,8 @@ export const EditPatientCard = () => {
 
             </div>
 
-            <div className="">
-                <button className="w-auto inline-block py-2 px-5 mb-4 font-bold border-2 rounded-md bg-blue-4 hover:bg-blue-5" onClick={handleSubmit} >Save</button>
+            <div className="pt-2">
+                <button className="w-auto inline-block py-2 px-5 font-bold border-2 rounded-md bg-blue-4 hover:bg-blue-5" onClick={handleSubmit} >Save</button>
             </div>
         </article>
 

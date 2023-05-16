@@ -7,7 +7,6 @@ export enum SelectDoctorModalType {
 }
 
 export interface SelectDoctorModalProps {
-  caseId: string;
   patientCardId?: string;
   onConfirm: (value: string) => void;
   title: string;
@@ -15,15 +14,16 @@ export interface SelectDoctorModalProps {
   icon?: React.ReactElement;
 }
 
-export const NodeModal = ({ caseId, onConfirm, title, initialText, icon }: SelectDoctorModalProps) => {
+export const NodeModal = ({ onConfirm, title, initialText, icon }: SelectDoctorModalProps) => {
   const [modalStatus, setModalStatus] = useState<'hidden' | 'visible'>('hidden');
-  const [text, setText] = useState(initialText);
+  const [text, setText] = useState("");
 
 
 
   useEffect(() => {
-
-  }, []);
+    if(initialText)
+    setText(initialText)
+  }, [initialText]);
 
 
   const confirmHandler = async () => {

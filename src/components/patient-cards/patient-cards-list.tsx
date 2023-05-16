@@ -10,7 +10,6 @@ import { SortOrder } from "../../models/sort-order";
 import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "zustand";
-import moment from "moment";
 import { defaultLimit, defaultOffset } from "../../models/model-constants";
 import { getPatientCards } from '../../services/patient-cards.service';
 import { patientCardsState } from '../../store/patientCardsState';
@@ -178,10 +177,6 @@ export const PatientCardsList = () => {
                             <div className="pt-1 pl-2 truncate">{pc.lastName}</div>
                             <div className="pt-1 pl-2 truncate">{formatDate(pc.dateOfBirth)}</div>
                             <div className="pt-1 pl-2 truncate">{pc.phoneNumber}</div>
-                            <Link title="Add new case" className="flex flex-row mt-1.5 px-1 truncate text-blue-400 cursor-pointer h-fit border-2 rounded-md border-blue-5" to={`/new-case/${pc.id}`}>
-                                <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
-                                <span className="text-blue-400">New Case</span>
-                            </Link>
                             <Link className="pt-1 pl-2 truncate text-blue-400 cursor-pointer" to={`/patient-cards-details/${pc.id}`}>Details</Link>
                         </div>
                     )

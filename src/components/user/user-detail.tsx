@@ -38,6 +38,7 @@ export const UserDetails = () => {
             </div>
             {error && (<div>{error}</div>)}
 
+            <div className="flex-1 overflow-auto min-h-0">
             <div className="grid grid-cols-3 mb-5">
                 <div className="">
                     <div className="flex flex-col mb-3">
@@ -83,9 +84,7 @@ export const UserDetails = () => {
                 </div>
 
             </div>
-
-
+            </div>
         </article>
-
     );
 }

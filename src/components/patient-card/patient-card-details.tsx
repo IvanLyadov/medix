@@ -5,6 +5,7 @@ import { getPatientCardDetail } from "../../services/patient-cards.service";
 import { Link, useParams } from "react-router-dom";
 import { PatientCard } from "../../models/patient-card/patient-card";
 import { ReactComponent as Pencil } from "../../assets/icons/pencil-outline.svg";
+import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
 import moment from "moment";
 
 export const PatientCardDetails = () => {
@@ -38,47 +39,49 @@ export const PatientCardDetails = () => {
                 <span className="text-center text-xl m-auto font-bold">Patient Card Details</span>
             </div>
             {error && (<div>{error}</div>)}
+            <div className="flex-1 overflow-auto min-h-0">
+                <div className="grid grid-cols-3 mb-5">
+                    <div className="">
+                        <div className="flex flex-col mb-3">
+                            <span className="font-bold">First Name:</span>
+                            <span >{patientDetail?.firstName}</span>
+                        </div>
+                        <div className="flex flex-col mb-3">
+                            <span className="font-bold">Middle Name:</span>
+                            <span >{patientDetail?.middleName}</span>
+                        </div>
+                        <div className="flex flex-col mb-3">
+                            <span className="font-bold">Phone:</span>
+                            <span >{patientDetail?.phoneNumber}</span>
+                        </div>
+                    </div>
+                    <div className="">
+                        <div className="flex flex-col mb-3">
+                            <span className="font-bold">Last Name:</span>
+                            <span >{patientDetail?.lastName}</span>
+                        </div>
+                        <div className="flex flex-col mb-3">
+                            <span className="font-bold">Date of birth:</span>
+                            <span >{moment.utc(patientDetail?.dateOfBirth).format('MM/DD/YYYY')}</span>
+                        </div>
+                        <div className="flex flex-col mb-3">
+                            <span className="font-bold">Email:</span>
+                            <span >{patientDetail?.email}</span>
+                        </div>
+                    </div>
+                    <div className="flex flex-col mb-3">
+                        <Link to={`/new-case/${patientCardId}`} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 py-2 hover:bg-blue-5  mb-1 cursor-pointer">
+                        <Plus className="fill-green-1 h-5 w-5 cursor-pointer" />
+                            <span> New Case</span>
+                        </Link>
+                        <Link to={`/patientCards/edit/${patientDetail?.id}`} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 py-2 hover:bg-blue-5  mb-1 cursor-pointer">
+                            <span> Edit Patient</span>
+                            <Pencil className="w-[18px] h-[18px] ml-1 fill-green-1 h-5 w-5 cursor-pointer fill-red-400" />
+                        </Link>
+                    </div>
 
-            <div className="grid grid-cols-3 mb-5">
-                <div className="">
-                    <div className="flex flex-col mb-3">
-                        <span className="font-bold">First Name:</span>
-                        <span >{patientDetail?.firstName}</span>
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <span className="font-bold">Middle Name:</span>
-                        <span >{patientDetail?.middleName}</span>
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <span className="font-bold">Phone:</span>
-                        <span >{patientDetail?.phoneNumber}</span>
-                    </div>
                 </div>
-                <div className="">
-                    <div className="flex flex-col mb-3">
-                        <span className="font-bold">Last Name:</span>
-                        <span >{patientDetail?.lastName}</span>
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <span className="font-bold">Date of birth:</span>
-                        <span >{moment.utc(patientDetail?.dateOfBirth).format('MM/DD/YYYY')}</span>
-                    </div>
-                    <div className="flex flex-col mb-3">
-                        <span className="font-bold">Email:</span>
-                        <span >{patientDetail?.email}</span>
-                    </div>
-                </div>
-                <div className="flex flex-col mb-3">
-                    <Link to={`/patientCards/edit/${patientDetail?.id}`} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 py-2 hover:bg-blue-5  mb-1 cursor-pointer">
-                        <span> Edit</span>
-                        <Pencil className="w-[18px] h-[18px] ml-1 fill-green-1 h-5 w-5 cursor-pointer fill-red-400" />
-                    </Link>
-                </div>
-
             </div>
-
-
         </article>
-
     );
 }
