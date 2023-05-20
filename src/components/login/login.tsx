@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useStore } from "zustand";
 import { AuthUser } from "../../models/auth/auth-user";
@@ -7,6 +7,7 @@ import { getUser } from "../../services/users.service";
 import { sessionState } from "../../store/appState";
 import { useNavigate } from 'react-router-dom';
 import { UserRole } from "../../models/user/user-role";
+import { User } from "../../models/user/user";
 
 export const Login = () => {
     const sessionStore = useStore(sessionState);
@@ -19,6 +20,12 @@ export const Login = () => {
     });
 
     const [errors, setErrors] = useState<Partial<AuthUser>>({});
+
+    useEffect(() => {
+        if (sessionStore.loggedInUser){
+            handleRedirect(sessionStore.loggedInUser);
+        }
+    });
 
     const validate = (values: AuthUser) => {
         const errors: Partial<AuthUser> = {};
@@ -43,6 +50,23 @@ export const Login = () => {
         setErrors(newErrors);
     };
 
+    const handleRedirect = (user: User) => {
+        switch (user.role){
+            case UserRole.UserManager:
+                navigate("/users");
+                break;
+            case UserRole.Doctor:
+                navigate("/cases");
+                break;
+            case UserRole.Administrator:
+                navigate("/cases");
+                break;
+            case UserRole.SuperUser:
+                navigate("/cases");
+                break;
+        }
+    };
+
     const handleSubmit = async () => {
         const errors = validate(formData);
         setErrors(errors);
@@ -56,20 +80,7 @@ export const Login = () => {
                 setTokenForHttpClient(token.accessToken);
                 const user = await getUser(token.userId);
                 sessionStore.updateUser(user);
-                switch (user.role){
-                    case UserRole.UserManager:
-                        navigate("/users");
-                        break;
-                    case UserRole.Doctor:
-                        navigate("/cases");
-                        break;
-                    case UserRole.Administrator:
-                        navigate("/cases");
-                        break;
-                    case UserRole.Doctor:
-                        navigate("/cases");
-                        break;
-                }
+                handleRedirect(user);
             }
         }
     };

@@ -22,3 +22,9 @@ export const formatDateToUtcString = (date: Date): string => {
     const utcDate = new Date(date.toUTCString());
     return utcDate.toISOString();
 }
+
+export const dateComparer = (date: string): boolean => {
+    const dateToCompare = new Date(date);
+    const currentDate = new Date();
+    return dateToCompare >= currentDate;
+}

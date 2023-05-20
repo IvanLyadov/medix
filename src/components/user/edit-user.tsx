@@ -5,6 +5,8 @@ import { UserRole } from "../../models/user/user-role";
 import { UserJobTitle } from "../../models/user/user-job-title";
 import { editUser, getUser } from "../../services/users.service";
 import { useParams } from "react-router-dom";
+import { sessionState } from "../../store/appState";
+import { useStore } from "zustand";
 
 interface FormData {
     id: string;
@@ -24,6 +26,7 @@ interface FormErrors extends Omit<FormData, 'jobTitle' | 'role'> {
 }
 
 export const EditUser = () => {
+    const sessionStore = useStore(sessionState);
     const { userId } = useParams();
     const [formData, setFormData] = useState<FormData>({
         id: '',
@@ -38,6 +41,11 @@ export const EditUser = () => {
     });
 
     const [errors, setErrors] = useState<Partial<FormErrors>>({});
+
+    const canEdit = sessionStore.loggedInUser?.id !== userId
+        && (sessionStore.loggedInUser?.role === UserRole.UserManager
+            || sessionStore.loggedInUser?.role === UserRole.SuperUser);
+
     const role = [
         {
             title: 'Administrator',
@@ -125,6 +133,13 @@ export const EditUser = () => {
         }
     };
 
+    const getHeader = (): string => {
+        if (userId === sessionStore.loggedInUser?.id) {
+            return "Edit Profile";
+        }
+        return "Edit User"
+    };
+
     const goBack = () => {
         window.history.back();
     }
@@ -135,7 +150,7 @@ export const EditUser = () => {
                 <button onClick={goBack}>
                     <ArrowLeft className="h-7 w-7 ml-2" />
                 </button>
-                <span className="text-center text-xl m-auto font-bold">Edit User</span>
+                <span className="text-center text-xl m-auto font-bold">{getHeader()}</span>
             </div>
             <div className="flex-1 overflow-auto min-h-0">
                 <div className="max-w-[600px]">
@@ -213,6 +228,7 @@ export const EditUser = () => {
                             className="mb-4 w-full pl-1 py-1 rounded-md"
                             value={formData.role}
                             onChange={(value) => handleChange(value)}
+                            disabled={!canEdit}
                         >
                             {
                                 role.map((role) => {
@@ -235,6 +251,7 @@ export const EditUser = () => {
                             className="mb-4 w-full pl-1 py-1 rounded-md"
                             value={formData.jobTitle}
                             onChange={(value) => handleChange(value)}
+                            disabled={!canEdit}
                         >
 
                             {Object.keys(UserJobTitle).map((value) => (
