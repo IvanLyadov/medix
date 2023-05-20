@@ -18,11 +18,16 @@ export const CaseDetail = () => {
     const { caseId } = useParams();
     const [patientCase, setPatientCase] = useState<FullCase>();
 
-    const canManageCase = sessionStore.loggedInUser?.role === UserRole.Administrator
+    const isCaseActive = patientCase?.closedAtUtc === null;
+
+    const canManageCase = isCaseActive && (sessionStore.loggedInUser?.role === UserRole.Administrator
+        || sessionStore.loggedInUser?.role === UserRole.SuperUser);
+
+    const openCloseCase = sessionStore.loggedInUser?.role === UserRole.Administrator
         || sessionStore.loggedInUser?.role === UserRole.SuperUser;
 
-    const canEditCase = sessionStore.loggedInUser?.role === UserRole.Doctor
-        || sessionStore.loggedInUser?.role === UserRole.SuperUser;
+    const canEditCase = isCaseActive && (sessionStore.loggedInUser?.role === UserRole.Doctor
+        || sessionStore.loggedInUser?.role === UserRole.SuperUser);
 
     const canViewDetails = sessionStore.loggedInUser?.role === UserRole.Doctor
         || sessionStore.loggedInUser?.role === UserRole.SuperUser;
@@ -93,21 +98,23 @@ export const CaseDetail = () => {
                 <div className="grid grid-cols-3 gap-4 mb-5">
                     <div className="flex flex-col">
                         <span className="font-bold">Patient:</span>
-                        <span className="">
-                            {`${patientCase?.patientCard.firstName} ${patientCase?.patientCard.lastName}`}
-                        </span>
+                        <Link to={`/patient-cards-details/${patientCase?.patientCard.id}`}>
+                            <span className="text-[#3030ba] font-bold text-xs">
+                                {`${patientCase?.patientCard.firstName} ${patientCase?.patientCard.lastName}`}
+                            </span>
+                        </Link>
                     </div>
                     <div className="flex flex-col">
                         <span className="font-bold">Date of opening:</span>
-                        <span className="text-[#3030ba] font-bold text-xs">
+                        <span className="text-green-1 font-bold text-xs">
                             {moment.utc(patientCase?.createdAtUtc).format('MM/DD/YYYY')}
                         </span>
                     </div>
                     <div className="flex flex-col">
                         <span className="font-bold">Case Status:</span>
-                        <span>{patientCase?.closedAtUtc ? "Closed" : "Active"}</span>
-                        {canManageCase && <div>
-                            {!patientCase?.closedAtUtc ? (
+                        <span>{!isCaseActive ? "Closed" : "Active"}</span>
+                        {openCloseCase && <div>
+                            {isCaseActive ? (
                                 <button onClick={changeStatus} className="flex flex-row items-center w-32 justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
                                     <span>Close Case</span>
                                     <Close className="fill-red-400 w-[20px]" />
@@ -175,10 +182,10 @@ export const CaseDetail = () => {
 
             <div>
                 <div className="grid grid-cols-4 gap-4">
-                    <Link to={`appointments/${patientCase?.patientCard.id}/${!patientCase?.closedAtUtc}`}>
+                    <Link to={`appointments/${patientCase?.patientCard.id}/${isCaseActive}`}>
                         <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Appointments</div>
                     </Link>
-                    {canViewDetails && <Link to={`chat/${!patientCase?.closedAtUtc}`}>
+                    {canViewDetails && <Link to={`chat/${isCaseActive}`}>
                         <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Discusstion</div>
                     </Link>}
                     {canViewDetails && <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Attachments</div>}

@@ -14,8 +14,7 @@ export const Menu = () => {
     || sessionStore.loggedInUser?.role === UserRole.SuperUser
     || sessionStore.loggedInUser?.role === UserRole.Administrator;
 
-    const canViewPatientCards = sessionStore.loggedInUser?.role === UserRole.Doctor
-    || sessionStore.loggedInUser?.role === UserRole.SuperUser
+    const canViewPatientCards = sessionStore.loggedInUser?.role === UserRole.SuperUser
     || sessionStore.loggedInUser?.role === UserRole.Administrator;
 
     const canViewUsers = sessionStore.loggedInUser?.role === UserRole.UserManager

@@ -19,3 +19,8 @@ export const addAppointment = async (addAppointmentParams: AddAppointmentParams)
     const { data } = await axios.post(appointmentsUrl, addAppointmentParams);
     return data;
 }
+
+export const removeAppointment = async (appointmentId: string): Promise<any> => {
+    const { data } = await axios.delete(`${appointmentsUrl}/${appointmentId}`);
+    return data;
+}
