@@ -71,7 +71,7 @@ export const NodeModal = ({ onConfirm, title, initialText, icon }: SelectDoctorM
 
 
             <div className="flex items-center p-3 text-sm font-medium text-green-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600">
-              <button onClick={() => confirmHandler()} data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom" className="text-white bg-green-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+              <button disabled={text.trim().length === 0} onClick={() => confirmHandler()} data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom" className="text-white bg-green-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                 Save
               </button>
             </div>

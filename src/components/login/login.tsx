@@ -87,7 +87,7 @@ export const Login = () => {
                     <input
                         type="text"
                         name="email"
-                        className="mb-4 w-full pl-1 py-1"
+                        className="mb-4 w-full pl-1 py-1 rounded-md"
                         value={formData.email}
                         onChange={handleChange}
                     />
@@ -100,7 +100,7 @@ export const Login = () => {
                     <input
                         type="password"
                         name="password"
-                        className="mb-4 w-full pl-1 py-1"
+                        className="mb-4 w-full pl-1 py-1 rounded-md"
                         value={formData.password}
                         onChange={handleChange}
                     />
