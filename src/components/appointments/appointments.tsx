@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { RowAppointment } from "../../models/appointment/row-appointment";
 import { getRowAppointments, removeAppointment } from "../../services/appointments.service";
-import { formatDateTime } from "../../utils/date.util";
+import { dateComparer, formatDateTime } from "../../utils/date.util";
 import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
 import { SelectDoctorModal, SelectDoctorModalType } from "../UI/select-doctor-modal";
@@ -87,7 +87,7 @@ export const Appointments = () => {
                         <div className="pt-1 pl-2 truncate">{formatDateTime(a.toUtc)}</div>
                         <div className="pt-1 pl-2 truncate">{a.description}</div>
                         <div>
-                            {canManageAppointment &&
+                            {canManageAppointment && dateComparer(formatDateTime(a.fromUtc)) &&
                             <Trash onClick={() => handleRemoveAppointment(a.id)}
                             className="w-[20px] h-[20px] mt-2 fill-red-400 cursor-pointer" />}
                         </div>

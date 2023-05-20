@@ -25,6 +25,7 @@ import { Chat } from './components/chat/chat';
 import { EditPatientCard } from './components/patient-card/edit-patient-card';
 import { UserDetails } from './components/user/user-detail';
 import { EditUser } from './components/user/edit-user';
+import { CaseLogs } from './components/case-logs/case-logs';
 
 export const App = () => {
   const sessionStore = useStore(sessionState);
@@ -59,6 +60,7 @@ export const App = () => {
           <Route path="/cases" element={<CasesList />} />
           <Route path="/cases/:caseId" element={<CaseDetail />} />
           <Route path="/cases/:caseId/appointments/:patientCardId/:isActive" element={<Appointments />} />
+          <Route path="/cases/:caseId/case-logs" element={<CaseLogs />} />
           <Route path="/calendar/:doctorId/:caseId?/:patientCardId?" element={<Calendar />} />
           <Route path="/cases/:caseId/chat/:isActive" element={<Chat />} />
           <Route path="/patientCards" element={<PatientCardsList />} />

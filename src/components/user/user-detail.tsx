@@ -5,8 +5,11 @@ import { Link, useParams } from "react-router-dom";
 import { ReactComponent as Pencil } from "../../assets/icons/pencil-outline.svg";
 import { getUser } from "../../services/users.service";
 import { User } from "../../models/user/user";
+import { sessionState } from "../../store/appState";
+import { useStore } from "zustand";
 
 export const UserDetails = () => {
+    const sessionStore = useStore(sessionState);
     const { userId } = useParams();
     const [error, setError] = useState('');
     const [patientDetail, setPatientDetail] = useState<User | null>(null);
@@ -28,13 +31,20 @@ export const UserDetails = () => {
 
     }, [])
 
+    const getHeader = (): string => {
+        if (userId === sessionStore.loggedInUser?.id){
+            return "Profile";
+        }
+        return "User Details"
+    };
+
     return (
         <article className="flex flex-col h-full p-3">
             <div className="w-[100%] bg-blue-5 py-2 mb-5 flex flex-row">
                 <button onClick={goBack}>
                     <ArrowLeft className="h-7 w-7 ml-2" />
                 </button>
-                <span className="text-center text-xl m-auto font-bold">User Details</span>
+                <span className="text-center text-xl m-auto font-bold">{getHeader()}</span>
             </div>
             {error && (<div>{error}</div>)}
 

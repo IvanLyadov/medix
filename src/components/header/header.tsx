@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ReactComponent as Profile } from "../../assets/icons/profile.svg";
 import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN_KEY, USER_ID_KEY } from "../../services/auth.service";
 
 export const Header = () => {
@@ -60,7 +60,9 @@ export const Header = () => {
                         </div>
                     </div >}
                     {isMenuOpened && <div className="absolute flex flex-col right-0 top-16 w-40 items-center border-2 bg-white">
-                        <div className="h-8 w-full text-center cursor-pointer hover:bg-slate-400">Profile</div>
+                        <Link className="w-full" to={`users-details/${sessionStore.loggedInUser?.id}`}>
+                            <div className="h-8 w-full text-center cursor-pointer hover:bg-slate-400">Profile</div>
+                        </Link>
                         <div className="h-8 w-full text-center cursor-pointer hover:bg-slate-400" onClick={handleLogOut}>LogOut</div>
                     </div>}
 
