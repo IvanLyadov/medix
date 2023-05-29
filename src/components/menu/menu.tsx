@@ -22,16 +22,16 @@ export const Menu = () => {
 
     return (
         <div className="menu-container bg-blue-2 h-full px-3 pt-3">
-            {canViewCases && <div className="cursor-pointer text-lg text-white font-bold">
+            {canViewCases && <div className="cursor-pointer text-lg text-white font-bold pl-2 hover:text-gray-700 hover:bg-blue-400 hover:rounded-xl">
                 <Link to="/cases">Cases</Link>
             </div>}
-            {canViewPatientCards && <div className="cursor-pointer text-lg text-white font-bold">
+            {canViewPatientCards && <div className="cursor-pointer text-lg text-white font-bold  pl-2 hover:text-gray-700 hover:bg-blue-400 hover:rounded-xl">
                 <Link to="/patientCards">Patient Cards</Link>
             </div>}
-            {canViewUsers && <div className="cursor-pointer text-lg text-white font-bold">
+            {canViewUsers && <div className="cursor-pointer text-lg text-white font-bold  pl-2 hover:text-gray-700 hover:bg-blue-400 hover:rounded-xl">
                 <Link to="/users">Users</Link>
             </div>}
-            {canViewSchedule && <div className="cursor-pointer text-lg text-white font-bold">
+            {canViewSchedule && <div className="cursor-pointer text-lg text-white font-bold  pl-2 hover:text-gray-700 hover:bg-blue-400 hover:rounded-xl">
                 <Link to={`/calendar/${sessionStore.loggedInUser?.id}`}>Schedule</Link>
             </div>}
         </div>
