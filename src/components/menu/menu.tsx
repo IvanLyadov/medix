@@ -21,17 +21,17 @@ export const Menu = () => {
     || sessionStore.loggedInUser?.role === UserRole.SuperUser;
 
     return (
-        <div className="menu-container bg-blue-2 h-full px-3">
-            {canViewCases && <div className="cursor-pointer">
+        <div className="menu-container bg-blue-2 h-full px-3 pt-3">
+            {canViewCases && <div className="cursor-pointer text-lg text-white font-bold">
                 <Link to="/cases">Cases</Link>
             </div>}
-            {canViewPatientCards && <div className="cursor-pointer">
+            {canViewPatientCards && <div className="cursor-pointer text-lg text-white font-bold">
                 <Link to="/patientCards">Patient Cards</Link>
             </div>}
-            {canViewUsers && <div className="cursor-pointer">
+            {canViewUsers && <div className="cursor-pointer text-lg text-white font-bold">
                 <Link to="/users">Users</Link>
             </div>}
-            {canViewSchedule && <div className="cursor-pointer">
+            {canViewSchedule && <div className="cursor-pointer text-lg text-white font-bold">
                 <Link to={`/calendar/${sessionStore.loggedInUser?.id}`}>Schedule</Link>
             </div>}
         </div>

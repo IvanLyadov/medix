@@ -12,8 +12,14 @@ import { useStore } from "zustand";
 import { sessionState } from "../../store/appState";
 import { NodeModal } from "../UI/text-modal";
 import { UserRole } from "../../models/user/user-role";
+import { ConfirmModal } from "../UI/confirm-modal";
 
 export const CaseDetail = () => {
+    const [openModal, setOpenModal] = useState(false);
+    const [doctorToRemove, setDoctorToRemove] = useState<string | null>(null);
+
+    const [openCaseModal, setOpenCaseModal] = useState(false);
+
     const sessionStore = useStore(sessionState);
     const { caseId } = useParams();
     const [patientCase, setPatientCase] = useState<FullCase>();
@@ -85,6 +91,20 @@ export const CaseDetail = () => {
         }
     }
 
+    const deleteDoctor = (doctorID: string) => {
+        setDoctorToRemove(doctorID);
+        setOpenModal(true);
+    }
+
+    const confirmDeleteDoctor = () => {
+        if (doctorToRemove) {
+            removeDoctor(doctorToRemove);
+        }
+    }
+
+    const confirmCaseStatus = () => {
+        changeStatus();
+    }
 
     return (
         <article className="flex flex-col h-full p-3">
@@ -115,13 +135,13 @@ export const CaseDetail = () => {
                         <span>{!isCaseActive ? "Closed" : "Active"}</span>
                         {openCloseCase && <div>
                             {isCaseActive ? (
-                                <button onClick={changeStatus} className="flex flex-row items-center w-32 justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
+                                <button onClick={() => setOpenCaseModal(true)} className="flex flex-row items-center w-32 justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
                                     <span>Close Case</span>
                                     <Close className="fill-red-400 w-[20px]" />
                                 </button>
                             ) :
                                 (
-                                    <button onClick={changeStatus} className="flex flex-row items-center w-32 justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
+                                    <button onClick={() => setOpenCaseModal(true)} className="flex flex-row items-center w-32 justify-center font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5  mb-1 cursor-pointer">
                                         <span>Open Case</span>
                                     </button>
                                 )
@@ -170,7 +190,7 @@ export const CaseDetail = () => {
                             return <div key={d.id} className="font-bold bg-[#eee] p-1 mb-1 flex flex-row items-center justify-between rounded-sm">
                                 <span> {d.firstName} {d.lastName} {d.jobTitle}</span>
 
-                                {canManageCase && <button onClick={() => removeDoctor(d.id)} className="ml-auto">
+                                {canManageCase && <button onClick={() => deleteDoctor(d.id)} className="ml-auto">
                                     <Trash className="w-[20px] h-[20px] fill-red-400" />
                                 </button>}
                             </div>
@@ -195,7 +215,23 @@ export const CaseDetail = () => {
 
                 </div>
             </div>
+            {openModal && 
+                <ConfirmModal 
+                    confirm={confirmDeleteDoctor}
+                    cancel={() => setOpenModal(false)} 
+                    close={() => setOpenModal(false)}
+                    title="Are you sure you want to remove Doctor?"
+                />
+            }
 
+            {openCaseModal && 
+                <ConfirmModal 
+                    confirm={confirmCaseStatus}
+                    cancel={() => setOpenCaseModal(false)} 
+                    close={() => setOpenCaseModal(false)}
+                    title="Are you sure you want to change case status?"
+                />
+            }
         </article>
 
     );
