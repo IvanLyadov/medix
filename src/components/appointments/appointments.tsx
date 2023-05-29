@@ -10,11 +10,15 @@ import { SelectDoctorModal, SelectDoctorModalType } from "../UI/select-doctor-mo
 import { UserRole } from "../../models/user/user-role";
 import "./appointments.css";
 import { ReactComponent as Trash } from "../../assets/icons/trash.svg";
+import { ConfirmModal } from "../UI/confirm-modal";
 
 export const Appointments = () => {
     const sessionStore = useStore(sessionState);
     const { caseId, patientCardId, isActive } = useParams();
     const [caseAppointments, setAppointments] = useState<RowAppointment[]>();
+
+    const [openModal, setOpenModal] = useState(false);
+    const [appointmentToRemove, setAppointmentToRemove] = useState<string | null>(null);
 
     const canManageAppointment = isActive === "true" && (sessionStore.loggedInUser?.role === UserRole.Administrator
         || sessionStore.loggedInUser?.role === UserRole.SuperUser);
@@ -39,6 +43,17 @@ export const Appointments = () => {
 
     const goBack = () => {
         window.history.back();
+    }
+
+    const deleteAppointment = (appointmentID: string) => {
+        setAppointmentToRemove(appointmentID);
+        setOpenModal(true);
+    }
+
+    const confirmDeleteAppointment = () => {
+        if (appointmentToRemove) {
+            handleRemoveAppointment(appointmentToRemove);
+        }
     }
 
     return (
@@ -88,12 +103,21 @@ export const Appointments = () => {
                         <div className="pt-1 pl-2 truncate">{a.description}</div>
                         <div>
                             {canManageAppointment && dateComparer(formatDateTime(a.fromUtc)) &&
-                            <Trash onClick={() => handleRemoveAppointment(a.id)}
+                            <Trash onClick={() => deleteAppointment(a.id)}
                             className="w-[20px] h-[20px] mt-2 fill-red-400 cursor-pointer" />}
                         </div>
                     </div>
                 })}
             </div>
+
+            {openModal && 
+                <ConfirmModal 
+                    confirm={confirmDeleteAppointment}
+                    cancel={() => setOpenModal(false)} 
+                    close={() => setOpenModal(false)}
+                    title="Are you sure you want to remove Appointment?"
+                />
+            }
         </article>
     );
 }
