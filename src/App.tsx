@@ -26,6 +26,7 @@ import { EditPatientCard } from './components/patient-card/edit-patient-card';
 import { UserDetails } from './components/user/user-detail';
 import { EditUser } from './components/user/edit-user';
 import { CaseLogs } from './components/case-logs/case-logs';
+import { CasesHistory } from './components/patient-card/cases-history';
 
 export const App = () => {
   const sessionStore = useStore(sessionState);
@@ -67,6 +68,7 @@ export const App = () => {
           <Route path="/patientCards/new" element={<NewPatientCard />} />
           <Route path="/patientCards/edit/:patientId" element={<EditPatientCard />} />
           <Route path="/patient-cards-details/:patientCardId" element={<PatientCardDetails />} />
+          <Route path="/patient-cards-details/:patientCardId/cases-history" element={<CasesHistory />} />
           <Route path="/new-case/:patientCardId" element={<NewCase />} />
           <Route path="/users" element={<UsersList />} />
           <Route path="/users/new" element={<AddUser />} />
