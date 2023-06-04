@@ -2,7 +2,7 @@ import axios from "axios";
 import { Params } from "react-router-dom";
 import { CasesFilter } from "../models/case/cases-filter";
 import { PaginatedCases } from "../models/case/paginated-cases";
-import { CreateCase } from "../models/case/case";
+import { Case, CreateCase } from "../models/case/case";
 import { CaseDoctorParams } from "../models/case/case-doctor-params";
 import { FullCase } from "../models/case/full-case";
 import { CaseStatusChange } from "../models/case/case-status-change";
@@ -32,6 +32,12 @@ export const getCases = async (casesFilter: CasesFilter): Promise<PaginatedCases
 
 export const getCase = async (caseId: string): Promise<FullCase> => {
     const { data } = await axios.get<FullCase>(`${casesUrl}/${caseId}`);
+    return data;   
+}
+
+export const getPatientCases = async (patientCardId: string): Promise<Case[]> => {
+    console.log(patientCardId)
+    const { data } = await axios.get<Case[]>(`${casesUrl}/patient/${patientCardId}`);
     return data;   
 }
 

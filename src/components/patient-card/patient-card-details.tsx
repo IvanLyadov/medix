@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { PatientCard } from "../../models/patient-card/patient-card";
 import { ReactComponent as Pencil } from "../../assets/icons/pencil-outline.svg";
 import { ReactComponent as Plus } from "../../assets/icons/plus.svg";
+import { ReactComponent as Active } from "../../assets/icons/active.svg";
 import moment from "moment";
 import { sessionState } from "../../store/appState";
 import { useStore } from "zustand";
@@ -87,6 +88,10 @@ export const PatientCardDetails = () => {
                         {canEditPatientCard && <Link to={`/patientCards/edit/${patientDetail?.id}`} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 py-2 hover:bg-blue-5  mb-1 cursor-pointer">
                             <span> Edit Patient</span>
                             <Pencil className="w-[18px] h-[18px] ml-1 fill-green-1 h-5 w-5 cursor-pointer fill-red-400" />
+                        </Link>}
+                        {canEditPatientCard && <Link to={`./cases-history`} className="flex flex-row items-center justify-center font-bold text-center border-2 rounded-md bg-blue-4 py-2 hover:bg-blue-5  mb-1 cursor-pointer">
+                            <span> Cases History</span>
+                            <Active className="w-[18px] h-[18px] ml-1 fill-blue-2 h-5 w-5 cursor-pointer fill-red-400" />
                         </Link>}
                     </div>
 
