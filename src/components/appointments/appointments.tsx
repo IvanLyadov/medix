@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ReactComponent as ArrowLeft } from "../../assets/icons/arrow_left.svg";
 import { RowAppointment } from "../../models/appointment/row-appointment";
 import { getRowAppointments, removeAppointment } from "../../services/appointments.service";
@@ -11,6 +11,7 @@ import { UserRole } from "../../models/user/user-role";
 import "./appointments.css";
 import { ReactComponent as Trash } from "../../assets/icons/trash.svg";
 import { ConfirmModal } from "../UI/confirm-modal";
+import { ReactComponent as Pencil } from "../../assets/icons/pencil-outline.svg";
 
 export const Appointments = () => {
     const sessionStore = useStore(sessionState);
@@ -101,7 +102,12 @@ export const Appointments = () => {
                         <div className="pt-1 pl-2 truncate">{formatDateTime(a.fromUtc)}</div>
                         <div className="pt-1 pl-2 truncate">{formatDateTime(a.toUtc)}</div>
                         <div className="pt-1 pl-2 truncate">{a.description}</div>
-                        <div>
+                        <div className="flex flex-row justify-center align-center mr-2">
+                            {canManageAppointment && dateComparer(formatDateTime(a.fromUtc)) && 
+                                <Link className="my-auto mr-2" to={`/cases/${caseId}/appointments/${a.id}/edit`}>
+                                    <Pencil className="w-[18px] h-[18px] ml-1 fill-green-1 h-5 w-5 cursor-pointer fill-green-400" />
+                                </Link>}
+
                             {canManageAppointment && dateComparer(formatDateTime(a.fromUtc)) &&
                             <Trash onClick={() => deleteAppointment(a.id)}
                             className="w-[20px] h-[20px] mt-2 fill-red-400 cursor-pointer" />}
