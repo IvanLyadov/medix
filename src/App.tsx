@@ -27,6 +27,7 @@ import { UserDetails } from './components/user/user-detail';
 import { EditUser } from './components/user/edit-user';
 import { CaseLogs } from './components/case-logs/case-logs';
 import { CasesHistory } from './components/patient-card/cases-history';
+import { Attachments } from './components/attachments/attachments';
 
 export const App = () => {
   const sessionStore = useStore(sessionState);
@@ -62,6 +63,7 @@ export const App = () => {
           <Route path="/cases/:caseId" element={<CaseDetail />} />
           <Route path="/cases/:caseId/appointments/:patientCardId/:isActive" element={<Appointments />} />
           <Route path="/cases/:caseId/case-logs" element={<CaseLogs />} />
+          <Route path="/cases/:caseId/attachments" element={<Attachments />} />
           <Route path="/calendar/:doctorId/:caseId?/:patientCardId?" element={<Calendar />} />
           <Route path="/cases/:caseId/chat/:isActive" element={<Chat />} />
           <Route path="/patientCards" element={<PatientCardsList />} />

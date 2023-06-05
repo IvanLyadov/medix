@@ -208,26 +208,27 @@ export const CaseDetail = () => {
                     {canViewDetails && <Link to={`chat/${isCaseActive}`}>
                         <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Discusstion</div>
                     </Link>}
-                    {canViewDetails && <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Attachments</div>}
+                    {canViewDetails && <Link to={"attachments"}> <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Attachments</div>
+                    </Link>}
                     <Link to={"case-logs"}>
                         <div className="font-bold text-center border-2 rounded-md bg-blue-4 hover:bg-blue-5 p-1 mb-1 cursor-pointer">Case Logs</div>
                     </Link>
 
                 </div>
             </div>
-            {openModal && 
-                <ConfirmModal 
+            {openModal &&
+                <ConfirmModal
                     confirm={confirmDeleteDoctor}
-                    cancel={() => setOpenModal(false)} 
+                    cancel={() => setOpenModal(false)}
                     close={() => setOpenModal(false)}
                     title="Are you sure you want to remove Doctor?"
                 />
             }
 
-            {openCaseModal && 
-                <ConfirmModal 
+            {openCaseModal &&
+                <ConfirmModal
                     confirm={confirmCaseStatus}
-                    cancel={() => setOpenCaseModal(false)} 
+                    cancel={() => setOpenCaseModal(false)}
                     close={() => setOpenCaseModal(false)}
                     title="Are you sure you want to change case status?"
                 />
