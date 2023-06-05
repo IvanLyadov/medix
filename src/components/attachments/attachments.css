@@ -1,0 +1,6 @@
+.attachment-table-header,
+.attachment-table-row {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr 0.2fr 0.2fr;
+    grid-auto-rows: 2.2rem;
+}
