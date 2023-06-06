@@ -161,7 +161,7 @@ export const Calendar = () => {
                     resizable
                     onEventResize={handleEventResize}
                 />
-                <Modal className="h-96 w-52 ml-auto mr-auto" isOpen={isModalOpen} onRequestClose={handleCloseModal} >
+                <Modal ariaHideApp={false} className="h-96 w-52 ml-auto mr-auto" isOpen={isModalOpen} onRequestClose={handleCloseModal} >
                     <div id="defaultModal" aria-hidden="true" className={`bg-[#0000007a] fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
 
                         <div id="dropdownSearch" className="p-5 top-[50%]  inset-y-1/2 translate-y-2/4 z-10 bg-white rounded-lg shadow max-w-[420px] w-full dark:bg-gray-700  m-auto">
@@ -170,7 +170,7 @@ export const Calendar = () => {
                                 <button onClick={() => handleCloseModal()} type="button" className="absolute right-[6px] top-[6px] z-50 bg-white rounded-full p-1 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                     <span className="sr-only">Close menu</span>
                                     <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
                         
