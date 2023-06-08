@@ -28,7 +28,7 @@ import { EditUser } from './components/user/edit-user';
 import { CaseLogs } from './components/case-logs/case-logs';
 import { CasesHistory } from './components/patient-card/cases-history';
 import { Attachments } from './components/attachments/attachments';
-import { AppointmentsEdit } from './components/appointments-edit/appointments-edit';
+import { AppointmentsEdit } from './components/appointments/appointments-edit';
 
 export const App = () => {
   const sessionStore = useStore(sessionState);

@@ -125,7 +125,7 @@ export const AppointmentsEdit = () => {
                         <input
                             type="text"
                             name="description"
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             value={formData.description}
                             onChange={(value) => handleDateChange({description: value.target.value})}
                         />
@@ -142,7 +142,7 @@ export const AppointmentsEdit = () => {
                             onChange={(value: Date) => handleDateChange({fromUtc:  new Date(value.toString() || '')})}
                             dateFormat="HH:mm" name="fromUtc"
                             showTimeSelect
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             includeDates={[new Date(formData.fromUtc || '')]}
                             showTimeInput
                         />
@@ -158,7 +158,7 @@ export const AppointmentsEdit = () => {
                             onChange={(value: Date) => handleDateChange({toUtc:  new Date(value.toString() || '')})}
                             dateFormat="HH:mm" name="toUtc"
                             showTimeSelect
-                            className="mb-4 w-full pl-1 py-1"
+                            className="mb-4 w-full pl-1 py-1 rounded-md"
                             includeDates={[new Date(formData.toUtc)]}
                             showTimeInput
                         />
